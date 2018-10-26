@@ -1,5 +1,6 @@
 package s1615548.coinz
 
+import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -22,6 +23,8 @@ import com.mapbox.mapboxsdk.maps.OnMapReadyCallback
 import com.mapbox.mapboxsdk.plugins.locationlayer.LocationLayerPlugin
 import com.mapbox.mapboxsdk.plugins.locationlayer.modes.CameraMode
 import com.mapbox.mapboxsdk.plugins.locationlayer.modes.RenderMode
+import kotlinx.android.synthetic.main.activity_main.*
+import s1615548.coinz.Activity.login_Activity
 
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineListener, PermissionsListener {
@@ -45,6 +48,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
 
         mapView?.onCreate(savedInstanceState)
         mapView?.getMapAsync (this)
+
+
+        // BUTTONS
+
+        btnToLogin.setOnClickListener{
+            intent = Intent(this, login_Activity::class.java)
+            startActivity(intent)
+        }
 
 
     }
@@ -147,6 +158,5 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         super.onStart()
         mapView?.onStart()
     }
-
 
 }
