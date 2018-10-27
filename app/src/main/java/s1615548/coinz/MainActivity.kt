@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.mapbox.android.core.location.LocationEngine
 import com.mapbox.android.core.location.LocationEngineListener
 import com.mapbox.android.core.location.LocationEnginePriority
@@ -26,6 +28,26 @@ import com.mapbox.mapboxsdk.plugins.locationlayer.modes.RenderMode
 import kotlinx.android.synthetic.main.activity_main.*
 import s1615548.coinz.Activity.login_Activity
 
+import com.mapbox.geojson.Feature
+import com.mapbox.geojson.FeatureCollection
+import com.mapbox.geojson.Geometry
+import com.mapbox.geojson.Point
+import com.google.gson.JsonObject
+import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
+import com.mapbox.mapboxsdk.annotations.Icon
+import com.mapbox.mapboxsdk.annotations.IconFactory
+import com.mapbox.mapboxsdk.annotations.Marker
+import com.mapbox.mapboxsdk.annotations.MarkerOptions
+import s1615548.coinz.DownloadCompleteRunner.result
+
+import com.mapbox.mapboxsdk.style.layers.CircleLayer
+import com.mapbox.mapboxsdk.style.layers.PropertyFactory
+import com.mapbox.mapboxsdk.style.layers.SymbolLayer
+import com.mapbox.mapboxsdk.style.sources.VectorSource
+import kotlinx.android.synthetic.main.activity_main.view.*
+import org.json.JSONObject
+import s1615548.coinz.Model.Coins
+
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineListener, PermissionsListener {
 
@@ -38,7 +60,15 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
     private lateinit var locationEngine : LocationEngine
     private lateinit var locationLayerPlugin : LocationLayerPlugin
 
+    private lateinit var mAuth: FirebaseAuth
+
+    private lateinit var mapURL:String
+
+    private var collect_range:Double = 50.0
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        // map initialize
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -49,14 +79,77 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         mapView?.onCreate(savedInstanceState)
         mapView?.getMapAsync (this)
 
+        // initialize mAuth
+        mAuth = FirebaseAuth.getInstance()
+
+        // initialize URL
+
+        mapURL = "http://homepages.inf.ed.ac.uk/stg/coinz/2018/10/05/coinzmap.geojson"
 
         // BUTTONS
 
         btnToLogin.setOnClickListener{
-            intent = Intent(this, login_Activity::class.java)
-            startActivity(intent)
+
+            if(mAuth.getCurrentUser() == null){
+                intent = Intent(this, login_Activity::class.java)
+                startActivity(intent)
+            }else{
+                showToast("already sign in with account " +  mAuth.getCurrentUser().toString())
+                // to the sending_coin activity
+            }
         }
 
+        btnShowCoin.setOnClickListener{
+
+            if(Coins.update_map()){
+
+                var i = 0
+                while(i<Coins.coin_Onmap.size){
+                    map!!.addMarker(MarkerOptions().position(Coins.coin_Onmap[i].coordinate)
+                            .title(Coins.coin_Onmap[i].currency)
+                            .snippet(Coins.coin_Onmap[i].value.toString())
+                    )
+
+                    i++
+                }
+
+            }
+
+        }
+
+        btnCollect.setOnClickListener{
+
+            if(Coins.collectIn(collect_range,LatLng(originLocation.latitude,originLocation.longitude))){
+                map!!.clear()
+                var i = 0
+                while(i<Coins.coin_Onmap.size){
+                    map!!.addMarker(MarkerOptions().position(Coins.coin_Onmap[i].coordinate)
+                            .title(Coins.coin_Onmap[i].currency)
+                            .snippet(Coins.coin_Onmap[i].value.toString())
+                    )
+
+                    i++
+                }
+            }
+
+        }
+
+        // test botton
+
+        for_test.setOnClickListener{
+
+        }
+
+        btnIncreaseR.setOnClickListener{
+            collect_range += 50
+            showToast("collection range = " + collect_range)
+        }
+
+        btnNumberOfCoin.setOnClickListener{
+            showToast("coins on map: "+ Coins.coin_Onmap.size.toString())
+            showToast("coins in wallet: "+ Coins.coin_InWallet.size.toString())
+            showToast("coins in bank: "+ Coins.coin_InBank.size.toString())
+        }
 
     }
 
@@ -71,6 +164,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
 // Make location information available
             enableLocation()
         }
+
     }
 
     private fun enableLocation() {
@@ -157,6 +251,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
     public override fun onStart() {
         super.onStart()
         mapView?.onStart()
+
+        DownloadFileTask(DownloadCompleteRunner).execute(mapURL)
     }
+
 
 }
