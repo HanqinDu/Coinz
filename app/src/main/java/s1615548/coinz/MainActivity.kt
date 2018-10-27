@@ -48,6 +48,7 @@ import kotlinx.android.synthetic.main.activity_main.view.*
 import org.json.JSONObject
 import s1615548.coinz.Activity.wallet_Activity
 import s1615548.coinz.Model.Coins
+import java.util.*
 
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineListener, PermissionsListener {
@@ -64,6 +65,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
     private lateinit var mAuth: FirebaseAuth
 
     private lateinit var mapURL:String
+
+    private lateinit var year:String
+    private lateinit var month:String
+    private lateinit var date:String
 
     private var collect_range:Double = 50.0
 
@@ -140,11 +145,15 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
             showToast("sign out")
         }
 
+        btnWallet.setOnClickListener{
+            intent = Intent(this, wallet_Activity::class.java)
+            startActivity(intent)
+        }
+
         // test botton
 
         for_test.setOnClickListener{
-            intent = Intent(this, wallet_Activity::class.java)
-            startActivity(intent)
+            showToast(mapURL)
         }
 
         btnIncreaseR.setOnClickListener{
@@ -259,6 +268,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         super.onStart()
         mapView?.onStart()
 
+        //download map
+        mapURL = getURL()
         DownloadFileTask(DownloadCompleteRunner).execute(mapURL)
     }
 

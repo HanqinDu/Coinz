@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.GridView
 import s1615548.coinz.Adapter.wallet_adaptor
 import s1615548.coinz.Model.Coins
+import s1615548.coinz.Model.wallet_Layout
 import s1615548.coinz.R
 
 class wallet_Activity : AppCompatActivity(){

@@ -2,14 +2,12 @@ package s1615548.coinz.Adapter
 
 import android.app.Activity
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import kotlinx.android.synthetic.main.layout_wallet.view.*
-import s1615548.coinz.Activity.wallet_Layout
+import s1615548.coinz.Model.wallet_Layout
 import s1615548.coinz.R
 
 class wallet_adaptor(private val getContext: Context, private val CustomLayoutId: Int, private val custom_item: ArrayList<wallet_Layout>)

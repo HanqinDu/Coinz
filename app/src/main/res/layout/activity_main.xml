@@ -39,7 +39,7 @@
         android:layout_marginTop="8dp"
         android:text="test"
         mapbox:layout_constraintStart_toStartOf="parent"
-        mapbox:layout_constraintTop_toTopOf="parent" />
+        mapbox:layout_constraintTop_toBottomOf="@+id/btnSignout" />
 
     <Button
         android:id="@+id/btnShowCoin"
@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="9dp"
-        android:text="show coin"
+        android:text="coins"
         mapbox:layout_constraintBottom_toBottomOf="parent"
         mapbox:layout_constraintStart_toEndOf="@+id/btnToLogin" />
 
@@ -59,7 +59,7 @@
         android:layout_marginTop="8dp"
         android:text="R+50"
         mapbox:layout_constraintStart_toStartOf="parent"
-        mapbox:layout_constraintTop_toBottomOf="@+id/for_test" />
+        mapbox:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnCollect"
@@ -90,5 +90,15 @@
         android:text="sign out"
         mapbox:layout_constraintStart_toStartOf="parent"
         mapbox:layout_constraintTop_toBottomOf="@+id/btnNumberOfCoin" />
+
+    <Button
+        android:id="@+id/btnWallet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="wallet"
+        mapbox:layout_constraintBottom_toBottomOf="parent"
+        mapbox:layout_constraintStart_toEndOf="@+id/btnCollect" />
 
 </android.support.constraint.ConstraintLayout>
