@@ -1,0 +1,45 @@
+package s1615548.coinz.Activity
+
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.widget.GridView
+import s1615548.coinz.Adapter.wallet_adaptor
+import s1615548.coinz.Model.Coins
+import s1615548.coinz.R
+
+class wallet_Activity : AppCompatActivity(){
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_wallet)
+
+        val GV = this.findViewById(R.id.GV) as GridView
+
+        val adapter = wallet_adaptor(this, R.layout.layout_wallet, data)
+
+        GV.adapter = adapter
+
+    }
+
+    val data: ArrayList<wallet_Layout>
+        get()
+        {
+
+            val item_liste = ArrayList<wallet_Layout>()
+
+            var i = 0
+            while(i< Coins.coin_InWallet.size){
+                when(Coins.coin_InWallet[i].currency){
+                    "QUID" -> item_liste.add(wallet_Layout(R.mipmap.quid, Coins.coin_InWallet[i].value.toString().substring(0..5)))
+                    "PENY" -> item_liste.add(wallet_Layout(R.mipmap.peny, Coins.coin_InWallet[i].value.toString().substring(0..5)))
+                    "DOLR" -> item_liste.add(wallet_Layout(R.mipmap.dolr, Coins.coin_InWallet[i].value.toString().substring(0..5)))
+                    "SHIL" -> item_liste.add(wallet_Layout(R.mipmap.shil, Coins.coin_InWallet[i].value.toString().substring(0..5)))
+                }
+                i++
+            }
+
+            return item_liste
+
+        }
+
+}

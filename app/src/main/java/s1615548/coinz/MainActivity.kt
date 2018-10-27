@@ -46,6 +46,7 @@ import com.mapbox.mapboxsdk.style.layers.SymbolLayer
 import com.mapbox.mapboxsdk.style.sources.VectorSource
 import kotlinx.android.synthetic.main.activity_main.view.*
 import org.json.JSONObject
+import s1615548.coinz.Activity.wallet_Activity
 import s1615548.coinz.Model.Coins
 
 
@@ -134,10 +135,16 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
 
         }
 
+        btnSignout.setOnClickListener{
+            FirebaseAuth.getInstance().signOut()
+            showToast("sign out")
+        }
+
         // test botton
 
         for_test.setOnClickListener{
-
+            intent = Intent(this, wallet_Activity::class.java)
+            startActivity(intent)
         }
 
         btnIncreaseR.setOnClickListener{

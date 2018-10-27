@@ -24,6 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activity.login_Activity" />
+        <activity android:name=".Activity.wallet_Activity" />
     </application>
 
 </manifest>
