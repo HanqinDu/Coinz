@@ -38,9 +38,18 @@ class wallet_Activity : AppCompatActivity(){
         }
 
         btnSaveToBank.setOnClickListener{
-
+            var i = 0
+            var difference = 0
+            while(i<adapter.selectedPositions.size){
+                if(adapter.selectedPositions[i]){
+                    Coins.moveToBank(i-difference)
+                    difference++
+                }
+                i++
+            }
+            showToast("$difference coins saved")
+            finish()
         }
-
 
     }
 
