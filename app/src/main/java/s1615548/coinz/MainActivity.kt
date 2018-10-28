@@ -3,13 +3,9 @@ package s1615548.coinz
 import android.content.Intent
 import android.location.Location
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.mapbox.android.core.location.LocationEngine
 import com.mapbox.android.core.location.LocationEngineListener
 import com.mapbox.android.core.location.LocationEnginePriority
@@ -28,27 +24,10 @@ import com.mapbox.mapboxsdk.plugins.locationlayer.modes.RenderMode
 import kotlinx.android.synthetic.main.activity_main.*
 import s1615548.coinz.Activity.login_Activity
 
-import com.mapbox.geojson.Feature
-import com.mapbox.geojson.FeatureCollection
-import com.mapbox.geojson.Geometry
-import com.mapbox.geojson.Point
-import com.google.gson.JsonObject
-import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
-import com.mapbox.mapboxsdk.annotations.Icon
-import com.mapbox.mapboxsdk.annotations.IconFactory
-import com.mapbox.mapboxsdk.annotations.Marker
 import com.mapbox.mapboxsdk.annotations.MarkerOptions
-import s1615548.coinz.DownloadCompleteRunner.result
 
-import com.mapbox.mapboxsdk.style.layers.CircleLayer
-import com.mapbox.mapboxsdk.style.layers.PropertyFactory
-import com.mapbox.mapboxsdk.style.layers.SymbolLayer
-import com.mapbox.mapboxsdk.style.sources.VectorSource
-import kotlinx.android.synthetic.main.activity_main.view.*
-import org.json.JSONObject
 import s1615548.coinz.Activity.wallet_Activity
 import s1615548.coinz.Model.Coins
-import java.util.*
 
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineListener, PermissionsListener {
@@ -110,12 +89,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
             if(Coins.update_map()){
 
                 var i = 0
-                while(i<Coins.coin_Onmap.size){
-                    map!!.addMarker(MarkerOptions().position(Coins.coin_Onmap[i].coordinate)
-                            .title(Coins.coin_Onmap[i].currency)
-                            .snippet(Coins.coin_Onmap[i].value.toString())
+                while(i<Coins.coin_OnMap.size){
+                    map!!.addMarker(MarkerOptions().position(Coins.coin_OnMap[i].coordinate)
+                            .title(Coins.coin_OnMap[i].currency)
+                            .snippet(Coins.coin_OnMap[i].value.toString())
                     )
-
                     i++
                 }
 
@@ -128,10 +106,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
             if(Coins.collectIn(collect_range,LatLng(originLocation.latitude,originLocation.longitude))){
                 map!!.clear()
                 var i = 0
-                while(i<Coins.coin_Onmap.size){
-                    map!!.addMarker(MarkerOptions().position(Coins.coin_Onmap[i].coordinate)
-                            .title(Coins.coin_Onmap[i].currency)
-                            .snippet(Coins.coin_Onmap[i].value.toString())
+                while(i<Coins.coin_OnMap.size){
+                    map!!.addMarker(MarkerOptions().position(Coins.coin_OnMap[i].coordinate)
+                            .title(Coins.coin_OnMap[i].currency)
+                            .snippet(Coins.coin_OnMap[i].value.toString())
                     )
 
                     i++
@@ -162,7 +140,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         }
 
         btnNumberOfCoin.setOnClickListener{
-            showToast("coins on map: "+ Coins.coin_Onmap.size.toString())
+            showToast("coins on map: "+ Coins.coin_OnMap.size.toString())
             showToast("coins in wallet: "+ Coins.coin_InWallet.size.toString())
             showToast("coins in bank: "+ Coins.coin_InBank.size.toString())
         }

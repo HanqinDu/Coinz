@@ -1,6 +1,11 @@
 package s1615548.coinz
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
+import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import java.util.*
 
@@ -31,6 +36,12 @@ fun getURL():String{
 
     return "http://homepages.inf.ed.ac.uk/stg/coinz/$year/$month/$date/coinzmap.geojson"
 
+}
+
+fun changeLight(imageview: ImageView, brightness: Int){
+    val array = floatArrayOf(1f,0f,0f,0f,brightness.toFloat(), 0f,1f,0f,0f,brightness.toFloat(),0f,0f,1f,0f,brightness.toFloat(),0f,0f,0f,1f,0f)
+    var matrix = ColorMatrix(array)
+    imageview.setColorFilter(ColorMatrixColorFilter(matrix))
 }
 
 interface DownloadCompleteListener {

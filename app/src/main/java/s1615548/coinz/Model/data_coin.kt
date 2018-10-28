@@ -3,11 +3,11 @@ package s1615548.coinz.Model
 import com.mapbox.mapboxsdk.geometry.LatLng
 import org.json.JSONObject
 import s1615548.coinz.DownloadCompleteRunner
-import s1615548.coinz.DownloadFileTask
 
 object Coins{
+    val bank_capacity = 100
     var downloadDate:String = ""
-    var coin_Onmap = arrayListOf<Coin>()
+    var coin_OnMap = arrayListOf<Coin>()
     var coin_InWallet = arrayListOf<Coin>()
     var coin_InBank = arrayListOf<Coin>()
     
@@ -24,7 +24,6 @@ object Coins{
         var geometry: JSONObject
         var coor_x:Double
         var coor_y:Double
-        var coor: LatLng
         
         if(downloadDate == jsonObject.getString("date-generated")){
             return false
@@ -32,7 +31,7 @@ object Coins{
             downloadDate = jsonObject.getString("date-generated")
         }
 
-        coin_Onmap.clear()
+        coin_OnMap.clear()
 
         for(i in 0 .. (features.length()-1)){
             feature = features.getJSONObject(i)
@@ -43,7 +42,7 @@ object Coins{
             coor_y = geometry.getString("coordinates").substringBefore(',').substringAfter('[').toDouble()
             
 
-            coin_Onmap.add(Coin(
+            coin_OnMap.add(Coin(
                     properties.getString("id"),
                     properties.getDouble("value"),
                     properties.getString("currency"),
@@ -63,10 +62,10 @@ object Coins{
         var output = false
         
         var i = 0
-        while(i < coin_Onmap.size){
-            if(coin_Onmap[i].coordinate.distanceTo(location) <= range){
-                coin_InWallet.add(coin_Onmap[i])
-                coin_Onmap.removeAt(i)
+        while(i < coin_OnMap.size){
+            if(coin_OnMap[i].coordinate.distanceTo(location) <= range){
+                coin_InWallet.add(coin_OnMap[i])
+                coin_OnMap.removeAt(i)
                 output = true
             }else{
                 i++
