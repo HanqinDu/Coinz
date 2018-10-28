@@ -55,5 +55,15 @@ object DownloadCompleteRunner : DownloadCompleteListener {
     }
 }
 
+fun curToInt(input: String): Int{
+    return when(input){
+        "PENY" -> 4
+        "DOLR" -> 3
+        "SHIL" -> 2
+        "QUID" -> 1
+        else -> 0
+    }
+}
+
 
 

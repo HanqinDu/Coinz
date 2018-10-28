@@ -56,5 +56,18 @@ class wallet_adaptor(private val getContext: Context, private val CustomLayoutId
         internal var txt : TextView? = null
     }
 
+    fun numSelect(): Int{
+        var output = 0
+
+        var i = 0
+        while(i<selectedPositions.size){
+            if(selectedPositions[i]){
+                output++
+            }
+            i++
+        }
+        return output
+    }
+
 
 }

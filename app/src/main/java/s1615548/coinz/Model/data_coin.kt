@@ -3,9 +3,13 @@ package s1615548.coinz.Model
 import com.mapbox.mapboxsdk.geometry.LatLng
 import org.json.JSONObject
 import s1615548.coinz.DownloadCompleteRunner
+import s1615548.coinz.curToInt
 
 object Coins{
     val bank_capacity = 100
+    val daily_capacity = 25
+    var collect_range:Double = 50.0
+    var transfer_made = 0
     var downloadDate:String = ""
     var coin_OnMap = arrayListOf<Coin>()
     var coin_InWallet = arrayListOf<Coin>()
@@ -48,7 +52,8 @@ object Coins{
                     properties.getString("currency"),
                     properties.getString("marker-symbol"),
                     properties.getString("marker-color"),
-                    LatLng(coor_x,coor_y)
+                    LatLng(coor_x,coor_y),
+                    curToInt(properties.getString("currency"))
                     ))
 
         }
@@ -57,13 +62,13 @@ object Coins{
 
     }
     
-    fun collectIn(range: Double, location: LatLng): Boolean{
+    fun collectIn(location: LatLng): Boolean{
         
         var output = false
         
         var i = 0
         while(i < coin_OnMap.size){
-            if(coin_OnMap[i].coordinate.distanceTo(location) <= range){
+            if(coin_OnMap[i].coordinate.distanceTo(location) <= collect_range){
                 coin_InWallet.add(coin_OnMap[i])
                 coin_OnMap.removeAt(i)
                 output = true
@@ -74,4 +79,16 @@ object Coins{
         
         return output
     }
+
+    fun moveToBank(i:Int){
+        coin_InBank.add(coin_InWallet[i])
+        coin_InWallet.removeAt(i)
+
+        transfer_made++
+    }
+
+    fun sort_wallet(){
+        coin_InWallet.sortWith(compareBy({-it.type},{-it.value}))
+    }
+
 }

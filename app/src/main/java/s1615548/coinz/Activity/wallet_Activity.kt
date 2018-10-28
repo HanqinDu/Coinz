@@ -25,7 +25,8 @@ class wallet_Activity : AppCompatActivity(){
         GV.adapter = adapter
 
         // text
-        instruction.setText("bank capacity: ${Coins.coin_InBank.size}/${Coins.bank_capacity}")
+        instruction.text = "bank capacity: ${Coins.coin_InBank.size}/${Coins.bank_capacity}"
+        instruction2.text = "daily capacity: ${Coins.transfer_made}/${Coins.daily_capacity}"
 
         GV.setOnItemClickListener { parent, view, position, id ->
             if(adapter.selectedPositions[position]){
@@ -38,16 +39,26 @@ class wallet_Activity : AppCompatActivity(){
         }
 
         btnSaveToBank.setOnClickListener{
-            var i = 0
-            var difference = 0
-            while(i<adapter.selectedPositions.size){
-                if(adapter.selectedPositions[i]){
-                    Coins.moveToBank(i-difference)
-                    difference++
+
+            if(adapter.numSelect() != 0){
+                var i = 0
+                var difference = 0
+                while(i<adapter.selectedPositions.size){
+                    if(adapter.selectedPositions[i]){
+                        Coins.moveToBank(i-difference)
+                        difference++
+                    }
+                    i++
                 }
-                i++
+                showToast("$difference coins saved")
+                finish()
+            }else{
+                showToast("please select more than one coin")
             }
-            showToast("$difference coins saved")
+
+        }
+
+        btnBack.setOnClickListener{
             finish()
         }
 

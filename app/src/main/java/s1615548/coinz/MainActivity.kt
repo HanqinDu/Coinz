@@ -49,8 +49,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
     private lateinit var month:String
     private lateinit var date:String
 
-    private var collect_range:Double = 50.0
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         // map initialize
@@ -103,7 +101,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
 
         btnCollect.setOnClickListener{
 
-            if(Coins.collectIn(collect_range,LatLng(originLocation.latitude,originLocation.longitude))){
+            if(Coins.collectIn(LatLng(originLocation.latitude,originLocation.longitude))){
                 map!!.clear()
                 var i = 0
                 while(i<Coins.coin_OnMap.size){
@@ -124,6 +122,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         }
 
         btnWallet.setOnClickListener{
+            Coins.sort_wallet()
             intent = Intent(this, wallet_Activity::class.java)
             startActivity(intent)
         }
@@ -135,8 +134,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         }
 
         btnIncreaseR.setOnClickListener{
-            collect_range += 50
-            showToast("collection range = " + collect_range)
+            Coins.collect_range += 50
+            showToast("collection range = " + Coins.collect_range)
         }
 
         btnNumberOfCoin.setOnClickListener{
