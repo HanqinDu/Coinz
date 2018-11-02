@@ -39,23 +39,26 @@ class wallet_Activity : AppCompatActivity(){
         }
 
         btnSaveToBank.setOnClickListener{
+            val number_of_selected_coin:Int = adapter.numSelect()
 
-            if(adapter.numSelect() != 0){
-                var i = 0
-                var difference = 0
-                while(i<adapter.selectedPositions.size){
-                    if(adapter.selectedPositions[i]){
-                        Coins.moveToBank(i-difference)
-                        difference++
+            when {
+                number_of_selected_coin == 0 -> showToast("please select at least one coin")
+                number_of_selected_coin + Coins.transfer_made > Coins.daily_capacity -> showToast("the number of coins exceed the daily capacity by " + (number_of_selected_coin + Coins.transfer_made - Coins.daily_capacity))
+                number_of_selected_coin + Coins.coin_InBank.size > Coins.bank_capacity -> showToast("the number of coins exceed the bank capacity by " + (number_of_selected_coin + Coins.coin_InBank.size - Coins.bank_capacity))
+                else -> {
+                    var i = 0
+                    var difference = 0
+                    while(i<adapter.selectedPositions.size){
+                        if(adapter.selectedPositions[i]){
+                            Coins.moveToBank(i-difference)
+                            difference++
+                        }
+                        i++
                     }
-                    i++
+                    showToast("$difference coins saved")
+                    finish()
                 }
-                showToast("$difference coins saved")
-                finish()
-            }else{
-                showToast("please select more than one coin")
             }
-
         }
 
         btnBack.setOnClickListener{
@@ -67,7 +70,6 @@ class wallet_Activity : AppCompatActivity(){
     val data: ArrayList<wallet_Layout>
         get()
         {
-
             val item_list = ArrayList<wallet_Layout>()
 
             var i = 0

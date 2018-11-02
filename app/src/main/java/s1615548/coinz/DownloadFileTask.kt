@@ -36,5 +36,14 @@ class DownloadFileTask(private val caller : DownloadCompleteListener) :
     override fun onPostExecute(result: String) {
         super.onPostExecute(result)
         caller.downloadComplete(result)
+
     }
 } // end class DownloadFileTask
+
+interface DownloadCompleteListener {
+    fun downloadComplete(result: String)
+}
+
+
+
+

@@ -1,7 +1,11 @@
 package s1615548.coinz
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.location.Location
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log
@@ -30,6 +34,7 @@ import s1615548.coinz.Activity.wallet_Activity
 import s1615548.coinz.Model.Coins
 
 
+@Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineListener, PermissionsListener {
 
     private val tag = "MainActivity"
@@ -49,7 +54,21 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
     private lateinit var month:String
     private lateinit var date:String
 
+    //implement download interface
+
+    val DownloadCompleteRunner = object : DownloadCompleteListener {
+        override fun downloadComplete(result: String) {
+            Coins.downloadResult = result
+            showCoins()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        // give value to originposition to avoid bug
+        originLocation = Location("")
+        originLocation.latitude = 55.944
+        originLocation.longitude = -3.188
 
         // map initialize
         super.onCreate(savedInstanceState)
@@ -69,6 +88,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
 
         mapURL = "http://homepages.inf.ed.ac.uk/stg/coinz/2018/10/05/coinzmap.geojson"
 
+        //download map
+        mapURL = getURL()
+        //DownloadFileTask(DownloadCompleteRunner).execute(mapURL)
+
         // BUTTONS
 
         btnToLogin.setOnClickListener{
@@ -83,20 +106,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         }
 
         btnShowCoin.setOnClickListener{
-
-            if(Coins.update_map()){
-
-                var i = 0
-                while(i<Coins.coin_OnMap.size){
-                    map!!.addMarker(MarkerOptions().position(Coins.coin_OnMap[i].coordinate)
-                            .title(Coins.coin_OnMap[i].currency)
-                            .snippet(Coins.coin_OnMap[i].value.toString())
-                    )
-                    i++
-                }
-
-            }
-
+            DownloadFileTask(DownloadCompleteRunner).execute(mapURL)
         }
 
         btnCollect.setOnClickListener{
@@ -130,7 +140,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         // test botton
 
         for_test.setOnClickListener{
-            showToast(mapURL)
+            showToast(Coins.rate_DOLR.toString())
+            showToast(Coins.rate_PENY.toString())
+            showToast(Coins.rate_SHIL.toString())
+            showToast(Coins.rate_QUID.toString())
         }
 
         btnIncreaseR.setOnClickListener{
@@ -158,6 +171,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
             enableLocation()
         }
 
+        //download file after map ready
+        DownloadFileTask(DownloadCompleteRunner).execute(mapURL)
     }
 
     private fun enableLocation() {
@@ -241,14 +256,36 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         }
     }
 
+    public fun showCoins(){
+        val switcher = Coins.update_map()
+        if(switcher == 1){
+
+            var i = 0
+            while(i<Coins.coin_OnMap.size){
+                map!!.addMarker(MarkerOptions().position(Coins.coin_OnMap[i].coordinate)
+                        .title(Coins.coin_OnMap[i].currency)
+                        .snippet(Coins.coin_OnMap[i].value.toString())
+                )
+                i++
+            }
+        }
+        if(switcher == -1){
+            showToast("please check your internet connection")
+        }
+        if(switcher == 0){
+            showToast("please wait for the map downloading")
+        }
+        if(switcher == 2){
+            showToast("this is the newest map")
+        }
+
+    }
+
     public override fun onStart() {
         super.onStart()
         mapView?.onStart()
-
-        //download map
-        mapURL = getURL()
-        DownloadFileTask(DownloadCompleteRunner).execute(mapURL)
     }
+
 
 
 }

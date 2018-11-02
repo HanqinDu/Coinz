@@ -44,16 +44,6 @@ fun changeLight(imageview: ImageView, brightness: Int){
     imageview.setColorFilter(ColorMatrixColorFilter(matrix))
 }
 
-interface DownloadCompleteListener {
-    fun downloadComplete(result: String)
-}
-
-object DownloadCompleteRunner : DownloadCompleteListener {
-    var result : String = ""
-    override fun downloadComplete(result: String) {
-        this.result = result
-    }
-}
 
 fun curToInt(input: String): Int{
     return when(input){
