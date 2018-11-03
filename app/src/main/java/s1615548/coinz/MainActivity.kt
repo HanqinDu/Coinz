@@ -29,6 +29,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import s1615548.coinz.Activity.login_Activity
 
 import com.mapbox.mapboxsdk.annotations.MarkerOptions
+import s1615548.coinz.Activity.bank_Activity
+import s1615548.coinz.Activity.manageCoin_Activity
 
 import s1615548.coinz.Activity.wallet_Activity
 import s1615548.coinz.Model.Coins
@@ -132,29 +134,19 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         }
 
         btnWallet.setOnClickListener{
-            Coins.sort_wallet()
-            intent = Intent(this, wallet_Activity::class.java)
+            intent = Intent(this, manageCoin_Activity::class.java)
             startActivity(intent)
         }
 
         // test botton
 
         for_test.setOnClickListener{
-            showToast(Coins.rate_DOLR.toString())
-            showToast(Coins.rate_PENY.toString())
-            showToast(Coins.rate_SHIL.toString())
-            showToast(Coins.rate_QUID.toString())
+
         }
 
         btnIncreaseR.setOnClickListener{
             Coins.collect_range += 50
             showToast("collection range = " + Coins.collect_range)
-        }
-
-        btnNumberOfCoin.setOnClickListener{
-            showToast("coins on map: "+ Coins.coin_OnMap.size.toString())
-            showToast("coins in wallet: "+ Coins.coin_InWallet.size.toString())
-            showToast("coins in bank: "+ Coins.coin_InBank.size.toString())
         }
 
     }

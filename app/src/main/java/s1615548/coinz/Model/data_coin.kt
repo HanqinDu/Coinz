@@ -124,6 +124,16 @@ object Coins{
         coin_InBank.removeAt(i)
     }
 
+    fun value_bank(i:Int): Double{
+        when(coin_InBank[i].currency){
+            "SHIL" -> return coin_InBank[i].value * rate_SHIL
+            "DOLR" -> return coin_InBank[i].value * rate_DOLR
+            "QUID" -> return coin_InBank[i].value * rate_QUID
+            "PENY" -> return coin_InBank[i].value * rate_PENY
+            else -> return 0.0
+        }
+    }
+
     fun sort_wallet(){
         coin_InWallet.sortWith(compareBy({-it.type},{-it.value}))
     }

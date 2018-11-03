@@ -2,10 +2,9 @@ package s1615548.coinz.Activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.widget.GridView
 import kotlinx.android.synthetic.main.activity_wallet.*
 import kotlinx.android.synthetic.main.layout_wallet.view.*
-import s1615548.coinz.Adapter.wallet_adaptor
+import s1615548.coinz.Adapter.coins_gridview_adaptor
 import s1615548.coinz.Model.Coins
 import s1615548.coinz.Model.wallet_Layout
 import s1615548.coinz.R
@@ -20,15 +19,15 @@ class wallet_Activity : AppCompatActivity(){
 
        // val GV = this.findViewById(R.id.GV) as GridView
 
-        val adapter = wallet_adaptor(this, R.layout.layout_wallet, data)
+        val adapter = coins_gridview_adaptor(this, R.layout.layout_wallet, data)
 
-        GV.adapter = adapter
+        GV_wallet.adapter = adapter
 
         // text
         instruction.text = "bank capacity: ${Coins.coin_InBank.size}/${Coins.bank_capacity}"
         instruction2.text = "daily capacity: ${Coins.transfer_made}/${Coins.daily_capacity}"
 
-        GV.setOnItemClickListener { parent, view, position, id ->
+        GV_wallet.setOnItemClickListener { parent, view, position, id ->
             if(adapter.selectedPositions[position]){
                 adapter.selectedPositions[position] = false
                 changeLight(view.img,0)

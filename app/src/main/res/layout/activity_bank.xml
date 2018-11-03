@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
-
+    tools:context=".Activity.bank_Activity">
 
     <GridView
-        android:id="@+id/GV_wallet"
+        android:id="@+id/GV_bank"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
@@ -17,42 +15,42 @@
         android:layout_marginBottom="8dp"
         android:columnWidth="70dp"
         android:numColumns="auto_fit"
-        app:layout_constraintBottom_toTopOf="@+id/btnSaveToBank"
-        app:layout_constraintTop_toBottomOf="@+id/instruction"
+        app:layout_constraintBottom_toTopOf="@+id/btnConverToGold"
+        app:layout_constraintTop_toBottomOf="@+id/golds_willGain"
         tools:layout_editor_absoluteX="0dp" />
 
-    <TextView
-        android:id="@+id/instruction"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="test"
-        app:layout_constraintEnd_toStartOf="@+id/instruction2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
-        android:id="@+id/btnSaveToBank"
+        android:id="@+id/btnConverToGold"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="save to bank"
+        android:text="convert to Gold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnBack" />
 
     <TextView
-        android:id="@+id/instruction2"
+        android:id="@+id/golds_willGain"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toStartOf="@+id/golds_number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/golds_number"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="text"
+        android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteY="7dp" />
+        tools:layout_editor_absoluteY="8dp" />
 
     <Button
         android:id="@+id/btnBack"
@@ -63,4 +61,6 @@
         android:text="back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+
 </android.support.constraint.ConstraintLayout>

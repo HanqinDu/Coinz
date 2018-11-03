@@ -11,11 +11,10 @@ import s1615548.coinz.Model.wallet_Layout
 import s1615548.coinz.R
 import s1615548.coinz.changeLight
 
-class wallet_adaptor(private val getContext: Context, private val CustomLayoutId: Int, private val custom_item: ArrayList<wallet_Layout>)
+class coins_gridview_adaptor(private val getContext: Context, private val CustomLayoutId: Int, private val custom_item: ArrayList<wallet_Layout>)
     : ArrayAdapter<wallet_Layout>(getContext, CustomLayoutId, custom_item) {
 
     var selectedPositions = MutableList<Boolean>(custom_item.size+1){false}
-
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 

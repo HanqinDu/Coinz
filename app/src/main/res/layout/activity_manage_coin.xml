@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.manageCoin_Activity">
+
+    <TextView
+        android:id="@+id/text_rate_peny2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="changing rate:"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/text_rate_quid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintTop_toBottomOf="@+id/text_rate_shil"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="convert to other types of coins"
+        app:layout_constraintBottom_toTopOf="@+id/btnManageCoinBack"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/btnToWallet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="wallet"
+        app:layout_constraintBottom_toTopOf="@+id/btnToBank"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/btnToBank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="bank"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/text_rate_dolr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintTop_toBottomOf="@+id/text_rate_peny"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <TextView
+        android:id="@+id/text_rate_shil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintTop_toBottomOf="@+id/text_rate_dolr"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/text_rate_peny"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintTop_toBottomOf="@+id/text_rate_peny2"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/btnManageCoinBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="135dp" />
+</android.support.constraint.ConstraintLayout>
