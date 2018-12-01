@@ -10,6 +10,7 @@ import s1615548.coinz.Model.Golds
 import s1615548.coinz.Model.wallet_Layout
 import s1615548.coinz.R
 import s1615548.coinz.changeLight
+import s1615548.coinz.showToast
 
 class bank_Activity : AppCompatActivity() {
 
@@ -71,11 +72,11 @@ class bank_Activity : AppCompatActivity() {
                 }
                 i++
             }
-            //showToast("$difference coins saved")
+            showToast("${gold_will_gain.toInt()} received")
             finish()
         }
 
-        btnBack.setOnClickListener{
+        btnBackBank.setOnClickListener{
             finish()
         }
 

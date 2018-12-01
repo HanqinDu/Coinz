@@ -60,7 +60,7 @@ class wallet_Activity : AppCompatActivity(){
             }
         }
 
-        btnBack.setOnClickListener{
+        btnBackWallet.setOnClickListener{
             finish()
         }
 

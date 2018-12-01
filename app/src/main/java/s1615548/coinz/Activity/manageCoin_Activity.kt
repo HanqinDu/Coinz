@@ -3,9 +3,11 @@ package s1615548.coinz.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_manage_coin.*
 import s1615548.coinz.Model.Coins
 import s1615548.coinz.R
+import s1615548.coinz.showToast
 
 class manageCoin_Activity : AppCompatActivity() {
 
@@ -27,6 +29,21 @@ class manageCoin_Activity : AppCompatActivity() {
         btnToBank.setOnClickListener{
             Coins.sort_Bank()
             intent = Intent(this, bank_Activity::class.java)
+            startActivity(intent)
+        }
+
+        btnSendCoins.setOnClickListener{
+            if(FirebaseAuth.getInstance().getCurrentUser() == null){
+                showToast("please sign in before sending coins to others")
+            }else{
+                Coins.sort_wallet()
+                intent = Intent(this, send_Activity::class.java)
+                startActivity(intent)
+            }
+        }
+
+        btnMail.setOnClickListener{
+            intent = Intent(this, mail_Activity::class.java)
             startActivity(intent)
         }
 

@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="changing rate:"
+        android:text="Changing rate:"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp" />
 
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="convert to other types of coins"
-        app:layout_constraintBottom_toTopOf="@+id/btnManageCoinBack"
+        app:layout_constraintBottom_toTopOf="@+id/btnSendCoins"
         tools:layout_editor_absoluteX="0dp" />
 
     <Button
@@ -86,4 +86,22 @@
         android:text="back"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="135dp" />
+
+    <Button
+        android:id="@+id/btnSendCoins"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="send coins to other user"
+        app:layout_constraintBottom_toTopOf="@+id/btnMail"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/btnMail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="mail"
+        app:layout_constraintBottom_toTopOf="@+id/btnManageCoinBack"
+        tools:layout_editor_absoluteX="126dp" />
 </android.support.constraint.ConstraintLayout>

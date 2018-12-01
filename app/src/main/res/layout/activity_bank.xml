@@ -29,7 +29,7 @@
         android:text="convert to Gold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnBack" />
+        app:layout_constraintStart_toEndOf="@+id/btnBackBank" />
 
     <TextView
         android:id="@+id/golds_willGain"
@@ -53,7 +53,7 @@
         tools:layout_editor_absoluteY="8dp" />
 
     <Button
-        android:id="@+id/btnBack"
+        android:id="@+id/btnBackBank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

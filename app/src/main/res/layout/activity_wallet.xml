@@ -43,7 +43,7 @@
         android:text="save to bank"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnBack" />
+        app:layout_constraintStart_toEndOf="@+id/btnBackWallet" />
 
     <TextView
         android:id="@+id/instruction2"
@@ -55,7 +55,7 @@
         tools:layout_editor_absoluteY="7dp" />
 
     <Button
-        android:id="@+id/btnBack"
+        android:id="@+id/btnBackWallet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

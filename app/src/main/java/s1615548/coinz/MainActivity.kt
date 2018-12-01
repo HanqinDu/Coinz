@@ -141,7 +141,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         // test botton
 
         for_test.setOnClickListener{
-
+            //FirebaseAuth.getInstance().uid
         }
 
         btnIncreaseR.setOnClickListener{
