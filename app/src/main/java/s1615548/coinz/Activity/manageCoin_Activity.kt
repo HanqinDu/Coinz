@@ -32,19 +32,21 @@ class manageCoin_Activity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        btnSendCoins.setOnClickListener{
-            if(FirebaseAuth.getInstance().getCurrentUser() == null){
-                showToast("please sign in before sending coins to others")
-            }else{
-                Coins.sort_wallet()
-                intent = Intent(this, send_Activity::class.java)
-                startActivity(intent)
-            }
+        btn_CoinsFF.setOnClickListener{
+            Coins.sort_Fwallet()
+            intent = Intent(this, frindscoin_Activity::class.java)
+            startActivity(intent)
         }
 
         btnMail.setOnClickListener{
-            intent = Intent(this, mail_Activity::class.java)
-            startActivity(intent)
+            if(FirebaseAuth.getInstance().getCurrentUser() == null){
+                showToast("please sign in before using mail")
+                intent = Intent(this, login_Activity::class.java)
+                startActivity(intent)
+            }else {
+                intent = Intent(this, mail_Activity::class.java)
+                startActivity(intent)
+            }
         }
 
         btnManageCoinBack.setOnClickListener{

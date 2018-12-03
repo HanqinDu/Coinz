@@ -28,7 +28,8 @@
         <activity android:name=".Activity.bank_Activity" />
         <activity android:name=".Activity.manageCoin_Activity" />
         <activity android:name=".Activity.send_Activity" />
-        <activity android:name=".Activity.mail_Activity"></activity>
+        <activity android:name=".Activity.mail_Activity" />
+        <activity android:name=".Activity.frindscoin_Activity"></activity>
     </application>
 
 </manifest>

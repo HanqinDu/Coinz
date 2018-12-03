@@ -89,9 +89,11 @@ class send_Activity : AppCompatActivity() {
 
             var sendlist = ""
             var i = 0
+            var coins_sends = 0
             while(i < Coins.coin_InWallet.size){
                 if(adapter.selectedPositions[i]){
                     sendlist += Coins.coin_InWallet[i].toString()
+                    coins_sends++
                 }
                 i++
             }
@@ -103,7 +105,18 @@ class send_Activity : AppCompatActivity() {
 
             mailRef?.add(newMessage)
                     ?.addOnSuccessListener {
-                        showToast("Coins sent")
+                        showToast("$coins_sends Coins sent")
+
+                        var i = 0
+                        var difference = 0
+                        while(i<adapter.selectedPositions.size){
+                            if(adapter.selectedPositions[i]){
+                                Coins.send(i-difference)
+                                difference++
+                            }
+                            i++
+                        }
+
                         finish()
                     }
                     ?.addOnFailureListener { e -> Log.e(TAG, e.message) }

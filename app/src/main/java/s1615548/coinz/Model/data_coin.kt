@@ -15,15 +15,17 @@ object Coins{
     var rate_QUID = 0.0
     var rate_PENY = 0.0
 
-    val bank_capacity = 100
+    val bank_capacity = 300
     val daily_capacity = 25
 
     var collect_range:Double = 50.0
     var transfer_made = 0
+    var send_made = 0
     var downloadDate:String = ""
     var coin_OnMap = arrayListOf<Coin>()
     var coin_InWallet = arrayListOf<Coin>()
     var coin_InBank = arrayListOf<Coin>()
+    var coin_FromMail = arrayListOf<Coin>()
     var downloadResult: String = ""
     
     fun update_map():Int{
@@ -43,6 +45,9 @@ object Coins{
         }
 
         if(downloadDate == jsonObject.getString("date-generated")){
+
+            transfer_made = 0
+            send_made = 0
             return 2
         }else{
             downloadDate = jsonObject.getString("date-generated")
@@ -51,6 +56,8 @@ object Coins{
         // 1: update begin
 
         coin_OnMap.clear()
+        coin_FromMail.clear()
+        coin_InWallet.clear()
 
         val features = jsonObject.getJSONArray("features")
         val rate = jsonObject.getJSONObject("rates")
@@ -114,6 +121,16 @@ object Coins{
         transfer_made++
     }
 
+    fun moveToBankF(i:Int){
+        coin_InBank.add(coin_FromMail[i])
+        coin_FromMail.removeAt(i)
+    }
+
+    fun send(i:Int){
+        coin_InWallet.removeAt(i)
+        send_made++
+    }
+
     fun converToGold(i:Int){
         when(coin_InBank[i].currency){
             "SHIL" -> Golds.value += coin_InBank[i].value * rate_SHIL
@@ -136,6 +153,10 @@ object Coins{
 
     fun sort_wallet(){
         coin_InWallet.sortWith(compareBy({-it.type},{-it.value}))
+    }
+
+    fun sort_Fwallet(){
+        coin_FromMail.sortWith(compareBy({-it.type},{-it.value}))
     }
 
     fun sort_Bank() {
