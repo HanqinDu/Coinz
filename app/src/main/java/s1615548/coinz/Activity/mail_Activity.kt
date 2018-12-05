@@ -31,9 +31,7 @@ class mail_Activity : AppCompatActivity() {
     private var mailRef: CollectionReference? = null
 
     companion object {
-        private const val TAG = "send_Activity"
         private const val COLLECTION_KEY = "sendCoins"
-        private const val DOCUMENT_KEY = "Coin"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +56,7 @@ class mail_Activity : AppCompatActivity() {
                 coins.add(i.getString("Coins").toString())
                 mail.add(i.getString("Message").toString())
                 document.add(i.id)
-                coins_number.add(233)
+                coins_number.add(i.getDouble("Number")!!.toInt())
             }
             adaptor.notifyDataSetChanged()
 

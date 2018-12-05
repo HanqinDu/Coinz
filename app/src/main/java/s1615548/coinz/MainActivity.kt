@@ -3,10 +3,10 @@ package s1615548.coinz
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.location.Location
-import android.net.ConnectivityManager
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
@@ -29,15 +29,25 @@ import kotlinx.android.synthetic.main.activity_main.*
 import s1615548.coinz.Activity.login_Activity
 
 import com.mapbox.mapboxsdk.annotations.MarkerOptions
-import s1615548.coinz.Activity.bank_Activity
 import s1615548.coinz.Activity.manageCoin_Activity
 
-import s1615548.coinz.Activity.wallet_Activity
+import s1615548.coinz.Model.DBHandler
+import s1615548.coinz.Model.Coin
 import s1615548.coinz.Model.Coins
+import java.util.*
 
 
 @Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineListener, PermissionsListener {
+
+    // delay
+    val handler = Handler()
+
+    // SQLite
+    var db = DBHandler(this, name = "data.db", version = 1, factory = null)
+
+    // SharedPreferences
+    private val preferencesFile = "MyPrefsFile" // for storing preferences
 
     private val tag = "MainActivity"
     private var mapView: MapView? = null
@@ -60,12 +70,24 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
 
     val DownloadCompleteRunner = object : DownloadCompleteListener {
         override fun downloadComplete(result: String) {
+
             Coins.downloadResult = result
-            showCoins()
+
+            // load data
+            if(Coins.downloadDate == ""){
+                showCoins()
+                showToast("empty downloadDate")
+            }else{
+                db.loadMap()
+                db.loadWallet()
+
+                loopLoadingMap()
+            }
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         // give value to originposition to avoid bug
         originLocation = Location("")
@@ -73,7 +95,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         originLocation.longitude = -3.188
 
         // map initialize
-        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         Mapbox.getInstance(this, "pk.eyJ1IjoiczE2MjI1MjAiLCJhIjoiY2pub2dkc2dzMjlkbDNxbzNrdjd1NWFtMiJ9.QkDeSFdqeV9Gwquv_NfewQ")
@@ -92,7 +113,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
 
         //download map
         mapURL = getURL()
-        //DownloadFileTask(DownloadCompleteRunner).execute(mapURL)
 
         // BUTTONS
 
@@ -141,7 +161,21 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         // test botton
 
         for_test.setOnClickListener{
-            //FirebaseAuth.getInstance().uid
+            val settings = getSharedPreferences(preferencesFile, Context.MODE_PRIVATE)
+            showToast(settings.getString("lastDownloadDate", ""))
+        }
+
+        btntest2.setOnClickListener{
+            showToast(Coins.coin_OnMap.size.toString())
+        }
+
+        btnDelete.setOnClickListener{
+            db.deleteAll()
+
+            Coins.coin_InWallet.clear()
+            Coins.coin_OnMap.clear()
+            Coins.downloadDate = ""
+
         }
 
         btnIncreaseR.setOnClickListener{
@@ -250,7 +284,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
 
     public fun showCoins(){
         val switcher = Coins.update_map()
-        if(switcher == 1){
+        if(switcher >= 1){
 
             var i = 0
             while(i<Coins.coin_OnMap.size){
@@ -267,17 +301,47 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         if(switcher == 0){
             showToast("please wait for the map downloading")
         }
-        if(switcher == 2){
-            showToast("this is the newest map")
-        }
-
     }
 
     public override fun onStart() {
         super.onStart()
+
+        // load last download date
+        val settings = getSharedPreferences(preferencesFile, Context.MODE_PRIVATE)
+        Coins.downloadDate = settings.getString("lastDownloadDate", "")
+
         mapView?.onStart()
+
     }
 
+    override fun onStop() {
+        super.onStop()
 
+        // save last download date
+        val settings = getSharedPreferences(preferencesFile, Context.MODE_PRIVATE)
+        val editor = settings.edit()
+        editor.putString("lastDownloadDate", Coins.downloadDate)
+        editor.apply()
+
+        // save data
+        db.deleteAll()
+        db.saveWallet()
+        db.saveMap()
+    }
+
+    fun loopLoadingMap(){
+        handler.postDelayed({
+            if(Coins.mapdataReady){
+                showCoins()
+            }else{
+                showToast("looping")
+                loopLoadingMap()
+            }
+        },400)
+    }
 
 }
+
+
+
+

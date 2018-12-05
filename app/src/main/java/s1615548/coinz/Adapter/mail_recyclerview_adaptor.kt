@@ -18,7 +18,7 @@ class mail_recyclerview_adaptor(val titles: ArrayList<String>, val coins: ArrayL
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.mail_title.text = titles[position]
-        holder.coins_number.text = coins[position].toString()
+        holder.coins_number.text = "Contains" + coins[position].toString() + "coins"
 
     }
 
@@ -27,7 +27,6 @@ class mail_recyclerview_adaptor(val titles: ArrayList<String>, val coins: ArrayL
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val mail_title: TextView = itemView.findViewById(R.id.mail_title)
         val coins_number: TextView = itemView.findViewById((R.id.coins_number))
-
     }
 
 }

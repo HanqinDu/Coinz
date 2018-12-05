@@ -92,4 +92,24 @@
         mapbox:layout_constraintBottom_toBottomOf="parent"
         mapbox:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/btntest2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="test2"
+        mapbox:layout_constraintStart_toStartOf="parent"
+        mapbox:layout_constraintTop_toBottomOf="@+id/for_test" />
+
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="9dp"
+        android:text="delete data"
+        mapbox:layout_constraintEnd_toEndOf="parent"
+        mapbox:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

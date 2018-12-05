@@ -100,7 +100,8 @@ class send_Activity : AppCompatActivity() {
 
             val newMessage = mapOf(
                     "Message" to text_notes.text.toString(),
-                    "Coins" to sendlist
+                    "Coins" to sendlist,
+                    "Number" to coins_sends
             )
 
             mailRef?.add(newMessage)

@@ -3,7 +3,6 @@ package s1615548.coinz.Activity
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_frindscoin.*
-import kotlinx.android.synthetic.main.activity_wallet.*
 import kotlinx.android.synthetic.main.layout_wallet.view.*
 import s1615548.coinz.Adapter.coins_gridview_adaptor
 import s1615548.coinz.Model.Coins

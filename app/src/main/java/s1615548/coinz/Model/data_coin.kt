@@ -15,6 +15,8 @@ object Coins{
     var rate_QUID = 0.0
     var rate_PENY = 0.0
 
+    var mapdataReady = false
+
     val bank_capacity = 300
     val daily_capacity = 25
 
