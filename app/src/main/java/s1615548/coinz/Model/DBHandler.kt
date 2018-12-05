@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.ContentValues
 import android.content.Intent
 import com.mapbox.mapboxsdk.geometry.LatLng
+import s1615548.coinz.Model.Coins.coin_FromMail
 import s1615548.coinz.Model.Coins.coin_InBank
 import s1615548.coinz.Model.Coins.coin_InWallet
 import s1615548.coinz.Model.Coins.coin_OnMap
@@ -36,21 +37,21 @@ class DBHandler(val context: Context?, name: String?, factory: SQLiteDatabase.Cu
     override fun onCreate(db: SQLiteDatabase?) {
 
         val create_table_wallet = "CREATE TABLE $TABLE_WALLET ($COLUMN_CURRENCY TEXT, $COLUMN_VALUE TEXT, $COLUMN_ID TEXT)"
+        val create_table_bank =   "CREATE TABLE $TABLE_BANK ($COLUMN_CURRENCY TEXT, $COLUMN_VALUE TEXT, $COLUMN_ID TEXT)"
+        val create_table_fwallet =   "CREATE TABLE $TABLE_FWALLET ($COLUMN_CURRENCY TEXT, $COLUMN_VALUE TEXT, $COLUMN_ID TEXT)"
         val create_table_map =    "CREATE TABLE $TABLE_MAP ($COLUMN_CURRENCY TEXT, $COLUMN_VALUE TEXT, $COLUMN_ID TEXT, $COLUMN_LAT TEXT, $COLUMN_LNG TEXT)"
         db?.execSQL(create_table_wallet)
+        db?.execSQL(create_table_bank)
+        db?.execSQL(create_table_fwallet)
         db?.execSQL(create_table_map)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db?.execSQL("DROP IF TABLE EXISTS $TABLE_WALLET")
+        db?.execSQL("DROP IF TABLE EXISTS $TABLE_BANK")
+        db?.execSQL("DROP IF TABLE EXISTS $TABLE_FWALLET")
         db?.execSQL("DROP IF TABLE EXISTS $TABLE_MAP")
         onCreate(db)
-    }
-
-    fun saveMap(){
-        for(coin in coin_OnMap){
-            addRow_loc(TABLE_MAP,coin)
-        }
     }
 
     fun saveWallet(){
@@ -59,7 +60,25 @@ class DBHandler(val context: Context?, name: String?, factory: SQLiteDatabase.Cu
         }
     }
 
-    fun addRow(table:String, c: Coin):Long{
+    fun saveBank(){
+        for(coin in coin_InBank){
+            addRow(TABLE_BANK,coin)
+        }
+    }
+
+    fun saveFWallet(){
+        for(coin in coin_FromMail){
+            addRow(TABLE_FWALLET,coin)
+        }
+    }
+
+    fun saveMap(){
+        for(coin in coin_OnMap){
+            addRow_loc(TABLE_MAP,coin)
+        }
+    }
+
+    fun addRow(table:String, c: Coin){
         var values = ContentValues()
         values.put(COLUMN_CURRENCY,c.currency)
         values.put(COLUMN_ID,c.id)
@@ -67,10 +86,10 @@ class DBHandler(val context: Context?, name: String?, factory: SQLiteDatabase.Cu
 
         var db = writableDatabase
 
-        return db.insert(table, null, values)
+        db.insert(table, null, values)
     }
 
-    fun addRow_loc(table:String, c: Coin):Long{
+    fun addRow_loc(table:String, c: Coin){
         var values = ContentValues()
         values.put(COLUMN_CURRENCY,c.currency)
         values.put(COLUMN_ID,c.id)
@@ -80,35 +99,18 @@ class DBHandler(val context: Context?, name: String?, factory: SQLiteDatabase.Cu
 
         var db = writableDatabase
 
-        return db.insert(table, null, values)
+        db.insert(table, null, values)
     }
-
-
 
     fun deleteAll(){
         var db = writableDatabase
-        db.execSQL("DELETE FROM $TABLE_WALLET WHERE 1")
-        db.execSQL("DELETE FROM $TABLE_MAP WHERE 1")
-    }
 
-    fun readRow():String{
-        var output = ""
-        var db = writableDatabase
-        val query = "SELECT * FROM $TABLE_WALLET WHERE 1"  // *: every column  1:every row
-
-        //Cursor point to a location in your results
-        var c = db.rawQuery(query, null)
-        c.moveToFirst()
-
-        while(!c.isAfterLast){
-            if(c.getString(c.getColumnIndex(COLUMN_CURRENCY)) != null){
-                output += c.getString(c.getColumnIndex(COLUMN_CURRENCY)) + c.getString(c.getColumnIndex(COLUMN_VALUE))
-                output += "\n"
-            }
-            c.moveToNext()
-        }
-        db.close()
-        return output
+        try{
+            db.execSQL("DELETE FROM $TABLE_WALLET WHERE 1")
+            db.execSQL("DELETE FROM $TABLE_BANK WHERE 1")
+            db.execSQL("DELETE FROM $TABLE_FWALLET WHERE 1")
+            db.execSQL("DELETE FROM $TABLE_MAP WHERE 1")
+        }catch (e:Exception){}
     }
 
     fun loadWallet(){
@@ -131,7 +133,46 @@ class DBHandler(val context: Context?, name: String?, factory: SQLiteDatabase.Cu
         }
 
         db.close()
+    }
 
+    fun loadBank(){
+        val db = writableDatabase
+        val query = "SELECT * FROM $TABLE_BANK WHERE 1"
+
+        var c = db.rawQuery(query, null)
+        c.moveToFirst()
+
+        while(!c.isAfterLast){
+            if(c.getString(c.getColumnIndex(COLUMN_CURRENCY)) != null){
+                coin_InBank.add(Coin(
+                        currency = c.getString(c.getColumnIndex(COLUMN_CURRENCY)),
+                        id = c.getString(c.getColumnIndex(COLUMN_ID)),
+                        value = c.getString(c.getColumnIndex(COLUMN_VALUE)).toDouble(),
+                        type = curToInt(c.getString(c.getColumnIndex(COLUMN_CURRENCY)))
+                ))
+            }
+            c.moveToNext()
+        }
+    }
+
+    fun loadFWallet(){
+        val db = writableDatabase
+        val query = "SELECT * FROM $TABLE_FWALLET WHERE 1"
+
+        var c = db.rawQuery(query, null)
+        c.moveToFirst()
+
+        while(!c.isAfterLast){
+            if(c.getString(c.getColumnIndex(COLUMN_CURRENCY)) != null){
+                coin_FromMail.add(Coin(
+                        currency = c.getString(c.getColumnIndex(COLUMN_CURRENCY)),
+                        id = c.getString(c.getColumnIndex(COLUMN_ID)),
+                        value = c.getString(c.getColumnIndex(COLUMN_VALUE)).toDouble(),
+                        type = curToInt(c.getString(c.getColumnIndex(COLUMN_CURRENCY)))
+                ))
+            }
+            c.moveToNext()
+        }
     }
 
     fun loadMap(){

@@ -34,6 +34,7 @@ import s1615548.coinz.Activity.manageCoin_Activity
 import s1615548.coinz.Model.DBHandler
 import s1615548.coinz.Model.Coin
 import s1615548.coinz.Model.Coins
+import s1615548.coinz.Model.Golds
 import java.util.*
 
 
@@ -79,7 +80,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
                 showToast("empty downloadDate")
             }else{
                 db.loadMap()
+                db.loadBank()
                 db.loadWallet()
+                db.loadFWallet()
 
                 loopLoadingMap()
             }
@@ -88,6 +91,15 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // load last download date
+        val settings = getSharedPreferences(preferencesFile, Context.MODE_PRIVATE)
+        Coins.downloadDate = settings.getString("lastDownloadDate", "")
+        Golds.value = settings.getString("gold", "0.0").toDouble()
+        Coins.rate_PENY = settings.getString("penyrate", "0.0").toDouble()
+        Coins.rate_QUID = settings.getString("quidrate", "0.0").toDouble()
+        Coins.rate_SHIL = settings.getString("shilrate", "0.0").toDouble()
+        Coins.rate_DOLR = settings.getString("dolrrate", "0.0").toDouble()
 
         // give value to originposition to avoid bug
         originLocation = Location("")
@@ -299,17 +311,23 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
             showToast("please check your internet connection")
         }
         if(switcher == 0){
-            showToast("please wait for the map downloading")
+            showToast("map is downloading")
         }
+    }
+
+    fun loopLoadingMap(){
+        handler.postDelayed({
+            if(Coins.mapdataReady){
+                showCoins()
+            }else{
+                showToast("map loading")
+                loopLoadingMap()
+            }
+        },500)
     }
 
     public override fun onStart() {
         super.onStart()
-
-        // load last download date
-        val settings = getSharedPreferences(preferencesFile, Context.MODE_PRIVATE)
-        Coins.downloadDate = settings.getString("lastDownloadDate", "")
-
         mapView?.onStart()
 
     }
@@ -321,23 +339,19 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         val settings = getSharedPreferences(preferencesFile, Context.MODE_PRIVATE)
         val editor = settings.edit()
         editor.putString("lastDownloadDate", Coins.downloadDate)
+        editor.putString("gold", Golds.value.toString())
+        editor.putString("penyrate",Coins.rate_PENY.toString())
+        editor.putString("quidrate",Coins.rate_QUID.toString())
+        editor.putString("shilrate",Coins.rate_SHIL.toString())
+        editor.putString("dolrrate",Coins.rate_DOLR.toString())
         editor.apply()
 
         // save data
         db.deleteAll()
         db.saveWallet()
+        db.saveBank()
+        db.saveFWallet()
         db.saveMap()
-    }
-
-    fun loopLoadingMap(){
-        handler.postDelayed({
-            if(Coins.mapdataReady){
-                showCoins()
-            }else{
-                showToast("looping")
-                loopLoadingMap()
-            }
-        },400)
     }
 
 }
