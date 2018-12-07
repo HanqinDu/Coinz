@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_manage_coin.*
+import s1615548.coinz.Model.Chest
 import s1615548.coinz.Model.Coins
 import s1615548.coinz.R
 import s1615548.coinz.showToast
@@ -19,6 +20,10 @@ class manageCoin_Activity : AppCompatActivity() {
         text_rate_dolr.text = "DOLR: ${Coins.rate_DOLR}"
         text_rate_shil.text = "SHIL: ${Coins.rate_SHIL}"
         text_rate_quid.text = "QUID: ${Coins.rate_QUID}"
+
+        // button
+
+        btnChest.isEnabled = Chest.chest_State == 1
 
         btnToWallet.setOnClickListener{
             Coins.sort_wallet()
@@ -47,6 +52,11 @@ class manageCoin_Activity : AppCompatActivity() {
                 intent = Intent(this, mail_Activity::class.java)
                 startActivity(intent)
             }
+        }
+
+        btnChest.setOnClickListener {
+            intent = Intent(this, chest_Activity::class.java)
+            startActivity(intent)
         }
 
         btnManageCoinBack.setOnClickListener{

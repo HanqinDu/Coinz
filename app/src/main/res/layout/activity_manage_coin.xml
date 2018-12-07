@@ -84,8 +84,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="mail"
-        app:layout_constraintBottom_toTopOf="@+id/btnManageCoinBack"
-        tools:layout_editor_absoluteX="126dp" />
+        app:layout_constraintBottom_toTopOf="@+id/btnChest"
+        tools:layout_editor_absoluteX="0dp" />
 
     <Button
         android:id="@+id/btn_CoinsFF"
@@ -95,4 +95,13 @@
         android:text="coins from friend"
         app:layout_constraintBottom_toTopOf="@+id/btnMail"
         tools:layout_editor_absoluteX="102dp" />
+
+    <Button
+        android:id="@+id/btnChest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Chest"
+        app:layout_constraintBottom_toTopOf="@+id/btnManageCoinBack"
+        tools:layout_editor_absoluteX="148dp" />
 </android.support.constraint.ConstraintLayout>

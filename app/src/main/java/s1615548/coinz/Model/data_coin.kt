@@ -4,9 +4,54 @@ import android.provider.Telephony
 import com.mapbox.mapboxsdk.geometry.LatLng
 import org.json.JSONObject
 import s1615548.coinz.curToInt
+import java.util.*
 
 object Golds{
     var value:Double = 0.0
+}
+
+object Chest{
+    var chest_Location = LatLng(0.0, 0.0)
+    var chest_State = 0   // 0: underground   1:been owned by player   2:already opened
+    var shovel = 0
+    var solution = mutableListOf(10, 10, 10, 10)
+    var collect_range = 100
+    var attempt = 8
+    var result = ""
+
+    fun dig(location: LatLng): Boolean {
+        if(shovel>0){
+            if(chest_Location.distanceTo(location) <= collect_range && chest_State == 0){
+                shovel--
+                chest_State = 1
+                return true
+            }else{
+                shovel--
+                return false
+            }
+        }else{
+            return false
+        }
+    }
+
+    fun setLocation(c1: Coin, c2:Coin){
+        chest_Location = LatLng((c1.coordinate.latitude + c2.coordinate.latitude)/2,(c1.coordinate.longitude + c2.coordinate.longitude)/2)
+    }
+
+    fun setSolution(){
+        val random = Random()
+        solution[0] = random.nextInt(10)
+        while (solution[1] == 10 || solution[1] == solution[0]){
+            solution[1] = random.nextInt(10)
+        }
+        while (solution[2] == 10 || solution[2] == solution[0] || solution[2] == solution[1]){
+            solution[2] = random.nextInt(10)
+        }
+        while (solution[3] == 10 || solution[3] == solution[0] || solution[3] == solution[1] || solution[3] == solution[2]){
+            solution[3] = random.nextInt(10)
+        }
+    }
+
 }
 
 object Coins{

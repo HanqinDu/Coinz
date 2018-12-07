@@ -30,11 +30,8 @@ import s1615548.coinz.Activity.login_Activity
 
 import com.mapbox.mapboxsdk.annotations.MarkerOptions
 import s1615548.coinz.Activity.manageCoin_Activity
+import s1615548.coinz.Model.*
 
-import s1615548.coinz.Model.DBHandler
-import s1615548.coinz.Model.Coin
-import s1615548.coinz.Model.Coins
-import s1615548.coinz.Model.Golds
 import java.util.*
 
 
@@ -92,7 +89,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // load last download date
+        // load date
         val settings = getSharedPreferences(preferencesFile, Context.MODE_PRIVATE)
         Coins.downloadDate = settings.getString("lastDownloadDate", "")
         Golds.value = settings.getString("gold", "0.0").toDouble()
@@ -100,13 +97,22 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         Coins.rate_QUID = settings.getString("quidrate", "0.0").toDouble()
         Coins.rate_SHIL = settings.getString("shilrate", "0.0").toDouble()
         Coins.rate_DOLR = settings.getString("dolrrate", "0.0").toDouble()
+        Chest.chest_Location = LatLng(settings.getString("chestLat", "0.0").toDouble(),settings.getString("chestLng", "0.0").toDouble())
+        Chest.shovel = settings.getInt("shovel",0)
+        Chest.chest_State = settings.getInt("cheststate",0)
+        Chest.solution[0] = settings.getInt("solution1",10)
+        Chest.solution[1] = settings.getInt("solution2",10)
+        Chest.solution[2] = settings.getInt("solution3",10)
+        Chest.solution[3] = settings.getInt("solution4",10)
+        Chest.attempt = settings.getInt("attempt",8)
+        Chest.result = settings.getString("result","")
 
-        // give value to originposition to avoid bug
+        // set value to originposition to avoid bug
         originLocation = Location("")
         originLocation.latitude = 55.944
         originLocation.longitude = -3.188
 
-        // map initialize
+        // initialize map
         setContentView(R.layout.activity_main)
 
         Mapbox.getInstance(this, "pk.eyJ1IjoiczE2MjI1MjAiLCJhIjoiY2pub2dkc2dzMjlkbDNxbzNrdjd1NWFtMiJ9.QkDeSFdqeV9Gwquv_NfewQ")
@@ -119,29 +125,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         // initialize mAuth
         mAuth = FirebaseAuth.getInstance()
 
-        // initialize URL
-
-        mapURL = "http://homepages.inf.ed.ac.uk/stg/coinz/2018/10/05/coinzmap.geojson"
-
         //download map
         mapURL = getURL()
 
+        // set buttons
+
+        btndig.isEnabled = Chest.shovel > 0 && Chest.chest_State == 0
+
         // BUTTONS
-
-        btnToLogin.setOnClickListener{
-
-            if(mAuth.getCurrentUser() == null){
-                intent = Intent(this, login_Activity::class.java)
-                startActivity(intent)
-            }else{
-                showToast("already sign in with account " +  mAuth.getCurrentUser().toString())
-                // to the sending_coin activity
-            }
-        }
-
-        btnShowCoin.setOnClickListener{
-            DownloadFileTask(DownloadCompleteRunner).execute(mapURL)
-        }
 
         btnCollect.setOnClickListener{
 
@@ -170,15 +161,23 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
             startActivity(intent)
         }
 
+        btndig.setOnClickListener{
+            if(Chest.dig(LatLng(originLocation.latitude,originLocation.longitude))){
+                showToast("you find the chest!")
+                btndig.isEnabled = false
+            }else{
+                showToast("there is nothing here, ${Chest.shovel} shovel left")
+                if(Chest.shovel <= 0){
+                    btndig.isEnabled = false
+                }
+            }
+        }
+
+
         // test botton
 
         for_test.setOnClickListener{
-            val settings = getSharedPreferences(preferencesFile, Context.MODE_PRIVATE)
-            showToast(settings.getString("lastDownloadDate", ""))
-        }
-
-        btntest2.setOnClickListener{
-            showToast(Coins.coin_OnMap.size.toString())
+            showToast(Chest.solution.toString())
         }
 
         btnDelete.setOnClickListener{
@@ -187,11 +186,20 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
             Coins.coin_InWallet.clear()
             Coins.coin_OnMap.clear()
             Coins.downloadDate = ""
+            Chest.chest_State = 0
+            Chest.shovel = 5
+            Chest.attempt = 8
+            Chest.result = ""
+            Chest.solution[0] = 10
+            Chest.solution[1] = 10
+            Chest.solution[2] = 10
+            Chest.solution[3] = 10
 
         }
 
         btnIncreaseR.setOnClickListener{
             Coins.collect_range += 50
+            Chest.collect_range += 50
             showToast("collection range = " + Coins.collect_range)
         }
 
@@ -296,6 +304,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
 
     public fun showCoins(){
         val switcher = Coins.update_map()
+        if(switcher == 1){
+            Chest.setLocation(Coins.coin_OnMap[2],Coins.coin_OnMap[5])
+            Chest.setSolution()
+            Chest.shovel = 5
+        }
         if(switcher >= 1){
 
             var i = 0
@@ -329,7 +342,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
     public override fun onStart() {
         super.onStart()
         mapView?.onStart()
-
     }
 
     override fun onStop() {
@@ -344,6 +356,16 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         editor.putString("quidrate",Coins.rate_QUID.toString())
         editor.putString("shilrate",Coins.rate_SHIL.toString())
         editor.putString("dolrrate",Coins.rate_DOLR.toString())
+        editor.putString("chestLat",Chest.chest_Location.latitude.toString())
+        editor.putString("chestLng",Chest.chest_Location.longitude.toString())
+        editor.putInt("shovel",Chest.shovel)
+        editor.putInt("cheststate",Chest.chest_State)
+        editor.putInt("solution1",Chest.solution[0])
+        editor.putInt("solution2",Chest.solution[1])
+        editor.putInt("solution3",Chest.solution[2])
+        editor.putInt("solution4",Chest.solution[3])
+        editor.putInt("attempt",Chest.attempt)
+        editor.putString("result",Chest.result)
         editor.apply()
 
         // save data

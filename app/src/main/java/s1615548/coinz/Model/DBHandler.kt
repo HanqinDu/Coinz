@@ -14,10 +14,10 @@ import s1615548.coinz.Model.Coins.mapdataReady
 import s1615548.coinz.curToInt
 
 
+
 class DBHandler(val context: Context?, name: String?, factory: SQLiteDatabase.CursorFactory?, version: Int) : SQLiteOpenHelper(context, name, factory, version) {
 
     companion object {
-        private const val DATABASE_NAME = "data.db"
 
         const val TABLE_WALLET = "coin_wallet"
         const val TABLE_MAP = "coin_map"
@@ -29,8 +29,6 @@ class DBHandler(val context: Context?, name: String?, factory: SQLiteDatabase.Cu
         const val COLUMN_LAT = "lat"
         const val COLUMN_LNG = "lng"
 
-        const val TABLE_MAP_VERSION = "map_version"
-        const val COLUMN_DATE = "date"
 
     }
 
