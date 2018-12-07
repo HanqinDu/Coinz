@@ -1,11 +1,14 @@
 package s1615548.coinz.Activity
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_wallet.*
 import kotlinx.android.synthetic.main.layout_wallet.view.*
 import s1615548.coinz.Adapter.coins_gridview_adaptor
 import s1615548.coinz.Model.Coins
+import s1615548.coinz.Model.DBHandler
+import s1615548.coinz.Model.Golds
 import s1615548.coinz.Model.wallet_Layout
 import s1615548.coinz.R
 import s1615548.coinz.changeLight
@@ -17,7 +20,10 @@ class wallet_Activity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wallet)
 
-       // val GV = this.findViewById(R.id.GV) as GridView
+        // SQLite
+        var db = DBHandler(this, name = "data.db", version = 1, factory = null)
+
+        // val GV = this.findViewById(R.id.GV) as GridView
 
         val adapter = coins_gridview_adaptor(this, R.layout.layout_wallet, data)
 
@@ -55,6 +61,17 @@ class wallet_Activity : AppCompatActivity(){
                         i++
                     }
                     showToast("$difference coins saved")
+
+                    // save data
+
+                    val settings = getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE)
+                    val editor = settings.edit()
+                    editor.putInt("transfermade", Coins.transfer_made)
+                    editor.apply()
+
+                    db.saveWallet()
+                    db.saveBank()
+
                     finish()
                 }
             }

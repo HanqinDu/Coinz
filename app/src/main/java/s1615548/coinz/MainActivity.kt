@@ -34,7 +34,6 @@ import s1615548.coinz.Model.*
 
 import java.util.*
 
-
 @Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineListener, PermissionsListener {
 
@@ -47,6 +46,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
     // SharedPreferences
     private val preferencesFile = "MyPrefsFile" // for storing preferences
 
+    // map
     private val tag = "MainActivity"
     private var mapView: MapView? = null
     private var map: MapboxMap? = null
@@ -65,7 +65,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
     private lateinit var date:String
 
     //implement download interface
-
     val DownloadCompleteRunner = object : DownloadCompleteListener {
         override fun downloadComplete(result: String) {
 
@@ -91,8 +90,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
 
         // load date
         val settings = getSharedPreferences(preferencesFile, Context.MODE_PRIVATE)
-        Coins.downloadDate = settings.getString("lastDownloadDate", "")
         Golds.value = settings.getString("gold", "0.0").toDouble()
+        Coins.downloadDate = settings.getString("lastDownloadDate", "")
+        Coins.transfer_made = settings.getInt("transfermade",0)
         Coins.rate_PENY = settings.getString("penyrate", "0.0").toDouble()
         Coins.rate_QUID = settings.getString("quidrate", "0.0").toDouble()
         Coins.rate_SHIL = settings.getString("shilrate", "0.0").toDouble()
@@ -359,11 +359,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         editor.putString("chestLat",Chest.chest_Location.latitude.toString())
         editor.putString("chestLng",Chest.chest_Location.longitude.toString())
         editor.putInt("shovel",Chest.shovel)
-        editor.putInt("cheststate",Chest.chest_State)
         editor.putInt("solution1",Chest.solution[0])
         editor.putInt("solution2",Chest.solution[1])
         editor.putInt("solution3",Chest.solution[2])
         editor.putInt("solution4",Chest.solution[3])
+        editor.putInt("cheststate",Chest.chest_State)
         editor.putInt("attempt",Chest.attempt)
         editor.putString("result",Chest.result)
         editor.apply()

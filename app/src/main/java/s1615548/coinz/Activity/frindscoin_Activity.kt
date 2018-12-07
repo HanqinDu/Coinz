@@ -6,12 +6,16 @@ import kotlinx.android.synthetic.main.activity_frindscoin.*
 import kotlinx.android.synthetic.main.layout_wallet.view.*
 import s1615548.coinz.Adapter.coins_gridview_adaptor
 import s1615548.coinz.Model.Coins
+import s1615548.coinz.Model.DBHandler
 import s1615548.coinz.Model.wallet_Layout
 import s1615548.coinz.R
 import s1615548.coinz.changeLight
 import s1615548.coinz.showToast
 
 class frindscoin_Activity : AppCompatActivity() {
+
+    // SQLite
+    var db = DBHandler(this, name = "data.db", version = 1, factory = null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +57,10 @@ class frindscoin_Activity : AppCompatActivity() {
                         i++
                     }
                     showToast("$difference coins saved")
+
+                    db.saveFWallet()
+                    db.saveBank()
+
                     finish()
                 }
             }

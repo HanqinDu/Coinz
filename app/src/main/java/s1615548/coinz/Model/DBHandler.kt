@@ -53,30 +53,34 @@ class DBHandler(val context: Context?, name: String?, factory: SQLiteDatabase.Cu
     }
 
     fun saveWallet(){
+        deleteTable(TABLE_WALLET)
         for(coin in coin_InWallet){
-            addRow(TABLE_WALLET,coin)
+            addCoin(TABLE_WALLET,coin)
         }
     }
 
     fun saveBank(){
+        deleteTable(TABLE_BANK)
         for(coin in coin_InBank){
-            addRow(TABLE_BANK,coin)
+            addCoin(TABLE_BANK,coin)
         }
     }
 
     fun saveFWallet(){
+        deleteTable(TABLE_FWALLET)
         for(coin in coin_FromMail){
-            addRow(TABLE_FWALLET,coin)
+            addCoin(TABLE_FWALLET,coin)
         }
     }
 
     fun saveMap(){
+        deleteTable(TABLE_MAP)
         for(coin in coin_OnMap){
-            addRow_loc(TABLE_MAP,coin)
+            addCoinWithLocation(TABLE_MAP,coin)
         }
     }
 
-    fun addRow(table:String, c: Coin){
+    private fun addCoin(table:String, c: Coin){
         var values = ContentValues()
         values.put(COLUMN_CURRENCY,c.currency)
         values.put(COLUMN_ID,c.id)
@@ -87,7 +91,7 @@ class DBHandler(val context: Context?, name: String?, factory: SQLiteDatabase.Cu
         db.insert(table, null, values)
     }
 
-    fun addRow_loc(table:String, c: Coin){
+    private fun addCoinWithLocation(table:String, c: Coin){
         var values = ContentValues()
         values.put(COLUMN_CURRENCY,c.currency)
         values.put(COLUMN_ID,c.id)
@@ -100,14 +104,21 @@ class DBHandler(val context: Context?, name: String?, factory: SQLiteDatabase.Cu
         db.insert(table, null, values)
     }
 
+    private fun deleteTable(table: String){
+
+        var db = writableDatabase
+        try{
+            db.execSQL("DELETE FROM $table WHERE 1")
+        }catch (e:Exception){}
+    }
+
     fun deleteAll(){
         var db = writableDatabase
-
         try{
-            db.execSQL("DELETE FROM $TABLE_WALLET WHERE 1")
-            db.execSQL("DELETE FROM $TABLE_BANK WHERE 1")
             db.execSQL("DELETE FROM $TABLE_FWALLET WHERE 1")
+            db.execSQL("DELETE FROM $TABLE_BANK WHERE 1")
             db.execSQL("DELETE FROM $TABLE_MAP WHERE 1")
+            db.execSQL("DELETE FROM $TABLE_WALLET WHERE 1")
         }catch (e:Exception){}
     }
 

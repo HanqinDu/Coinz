@@ -1,11 +1,13 @@
 package s1615548.coinz.Activity
 
+import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_bank.*
 import kotlinx.android.synthetic.main.layout_wallet.view.*
 import s1615548.coinz.Adapter.coins_gridview_adaptor
 import s1615548.coinz.Model.Coins
+import s1615548.coinz.Model.DBHandler
 import s1615548.coinz.Model.Golds
 import s1615548.coinz.Model.wallet_Layout
 import s1615548.coinz.R
@@ -14,6 +16,12 @@ import s1615548.coinz.showToast
 
 class bank_Activity : AppCompatActivity() {
 
+    var gold_will_gain: Double = 0.0
+
+    // SQLite
+    var db = DBHandler(this, name = "data.db", version = 1, factory = null)
+
+    // set up data of grid view
     val data: ArrayList<wallet_Layout>
         get()
         {
@@ -32,19 +40,22 @@ class bank_Activity : AppCompatActivity() {
             return item_list
         }
 
-    var gold_will_gain: Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bank)
 
+        // set up adapter for grid view
         val adapter = coins_gridview_adaptor(this, R.layout.layout_wallet, data)
 
         GV_bank.adapter = adapter
 
+        // set up text
         golds_number.text = "you have ${Golds.value.toInt()} golds"
         golds_willGain.text = "you will gain 0 golds"
 
+
+        // setting of the grid view
         GV_bank.setOnItemClickListener { parent, view, position, id ->
             if(adapter.selectedPositions[position]){
                 adapter.selectedPositions[position] = false
@@ -63,6 +74,8 @@ class bank_Activity : AppCompatActivity() {
         }
 
         btnConverToGold.setOnClickListener{
+
+            // convert Coin to golds one by one
             var i = 0
             var difference = 0
             while(i<adapter.selectedPositions.size){
@@ -73,6 +86,16 @@ class bank_Activity : AppCompatActivity() {
                 i++
             }
             showToast("${gold_will_gain.toInt()} received")
+
+            // save data and finish activity
+            val settings = getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE)
+            val editor = settings.edit()
+            editor.putString("gold", Golds.value.toString())
+            editor.apply()
+
+            db.saveBank()
+
+
             finish()
         }
 
