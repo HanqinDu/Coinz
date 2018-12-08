@@ -29,7 +29,6 @@ class DBHandler(val context: Context?, name: String?, factory: SQLiteDatabase.Cu
         const val COLUMN_LAT = "lat"
         const val COLUMN_LNG = "lng"
 
-
     }
 
     override fun onCreate(db: SQLiteDatabase?) {

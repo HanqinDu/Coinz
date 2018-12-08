@@ -17,6 +17,7 @@ import com.mapbox.android.core.location.LocationEngineProvider
 import com.mapbox.android.core.permissions.PermissionsListener
 import com.mapbox.android.core.permissions.PermissionsManager
 import com.mapbox.mapboxsdk.Mapbox
+import com.mapbox.mapboxsdk.annotations.IconFactory
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapView
@@ -311,14 +312,33 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         }
         if(switcher >= 1){
 
+            val iconFactory = IconFactory.getInstance(this)
+
             var i = 0
             while(i<Coins.coin_OnMap.size){
                 map!!.addMarker(MarkerOptions().position(Coins.coin_OnMap[i].coordinate)
                         .title(Coins.coin_OnMap[i].currency)
-                        .snippet(Coins.coin_OnMap[i].value.toString())
+                        .icon(
+                                when(Coins.coin_OnMap[i].currency){
+                                    "QUID" -> iconFactory.fromResource(R.mipmap.markerq)
+                                    "PENY" -> iconFactory.fromResource(R.mipmap.markerp)
+                                    "DOLR" -> iconFactory.fromResource(R.mipmap.markerd)
+                                    "SHIL" -> iconFactory.fromResource(R.mipmap.markers)
+                                    else -> iconFactory.fromResource(R.drawable.mapbox_marker_icon_default)
+                                }
+                        )
+                        .snippet(
+                                if(Coins.coin_OnMap[i].value.toString().length > 5){
+                                    Coins.coin_OnMap[i].value.toString().substring(0..5)
+                                }else{
+                                    Coins.coin_OnMap[i].value.toString()
+                                }
+                        )
                 )
                 i++
             }
+
+
         }
         if(switcher == -1){
             showToast("please check your internet connection")
