@@ -30,7 +30,10 @@
         <activity android:name=".Activity.send_Activity" />
         <activity android:name=".Activity.mail_Activity" />
         <activity android:name=".Activity.frindscoin_Activity" />
-        <activity android:name=".Activity.chest_Activity"></activity>
+        <activity android:name=".Activity.chest_Activity" />
+        <activity android:name=".Activity.Building.library_Activity" />
+        <activity android:name=".Activity.Building.appletonTower_Activity" />
+        <activity android:name=".Activity.Building.georgeSquare_Activity"></activity>
     </application>
 
 </manifest>

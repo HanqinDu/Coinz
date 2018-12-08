@@ -1,9 +1,7 @@
 package s1615548.coinz
 
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.location.Location
 import android.os.Bundle
 import android.os.Handler
@@ -27,13 +25,13 @@ import com.mapbox.mapboxsdk.plugins.locationlayer.LocationLayerPlugin
 import com.mapbox.mapboxsdk.plugins.locationlayer.modes.CameraMode
 import com.mapbox.mapboxsdk.plugins.locationlayer.modes.RenderMode
 import kotlinx.android.synthetic.main.activity_main.*
-import s1615548.coinz.Activity.login_Activity
 
 import com.mapbox.mapboxsdk.annotations.MarkerOptions
+import s1615548.coinz.Activity.Building.appletonTower_Activity
+import s1615548.coinz.Activity.Building.georgeSquare_Activity
+import s1615548.coinz.Activity.Building.library_Activity
 import s1615548.coinz.Activity.manageCoin_Activity
 import s1615548.coinz.Model.*
-
-import java.util.*
 
 @Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineListener, PermissionsListener {
@@ -90,6 +88,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         super.onCreate(savedInstanceState)
 
         // load date
+        Buildings.load()
         val settings = getSharedPreferences(preferencesFile, Context.MODE_PRIVATE)
         Golds.value = settings.getString("gold", "0.0").toDouble()
         Coins.downloadDate = settings.getString("lastDownloadDate", "")
@@ -139,14 +138,37 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
 
             if(Coins.collectIn(LatLng(originLocation.latitude,originLocation.longitude))){
                 map!!.clear()
-                var i = 0
-                while(i<Coins.coin_OnMap.size){
-                    map!!.addMarker(MarkerOptions().position(Coins.coin_OnMap[i].coordinate)
-                            .title(Coins.coin_OnMap[i].currency)
-                            .snippet(Coins.coin_OnMap[i].value.toString())
-                    )
 
-                    i++
+                val iconFactory = IconFactory.getInstance(this)
+
+                for(c in Coins.coin_OnMap){
+                    map!!.addMarker(MarkerOptions().position(c.coordinate)
+                            .title(c.currency)
+                            .icon(
+                                    when(c.currency){
+                                        "QUID" -> iconFactory.fromResource(R.mipmap.markerq)
+                                        "PENY" -> iconFactory.fromResource(R.mipmap.markerp)
+                                        "DOLR" -> iconFactory.fromResource(R.mipmap.markerd)
+                                        "SHIL" -> iconFactory.fromResource(R.mipmap.markers)
+                                        else -> iconFactory.fromResource(R.drawable.mapbox_marker_icon_default)
+                                    }
+                            )
+                            .snippet(
+                                    if(c.value.toString().length > 5){
+                                        c.value.toString().substring(0..5)
+                                    }else{
+                                        c.value.toString()
+                                    }
+                            )
+                    )
+                }
+
+                for(b in Buildings.list){
+                    map!!.addMarker(MarkerOptions().position(b.coordinate)
+                            .title(b.name)
+                            .icon(iconFactory.fromResource(R.mipmap.buildingicon))
+                            .snippet(b.description)
+                    )
                 }
             }
 
@@ -174,19 +196,32 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
             }
         }
 
+        btnBuilding.setOnClickListener {
+            for(b in Buildings.list){
+                if(b.coordinate.distanceTo(LatLng(originLocation.latitude,originLocation.longitude)) <= Buildings.access_range){
+                    when(b.name){
+                        "Library" -> startActivity(Intent(this, library_Activity::class.java))
+                        "Appleton Tower" -> startActivity(Intent(this, appletonTower_Activity::class.java))
+                        "George square" -> startActivity(Intent(this, georgeSquare_Activity::class.java))
+                    }
+                    break
+                }
+            }
+        }
+
 
         // test botton
 
-        for_test.setOnClickListener{
-            showToast(Chest.solution.toString())
-        }
-
         btnDelete.setOnClickListener{
+
             db.deleteAll()
+
+            Golds.value = 0.0
 
             Coins.coin_InWallet.clear()
             Coins.coin_OnMap.clear()
             Coins.downloadDate = ""
+
             Chest.chest_State = 0
             Chest.shovel = 5
             Chest.attempt = 8
@@ -195,7 +230,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
             Chest.solution[1] = 10
             Chest.solution[2] = 10
             Chest.solution[3] = 10
-
         }
 
         btnIncreaseR.setOnClickListener{
@@ -312,14 +346,13 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         }
         if(switcher >= 1){
 
-            val iconFactory = IconFactory.getInstance(this)
+            for(c in Coins.coin_OnMap){
+                val iconFactory = IconFactory.getInstance(this)
 
-            var i = 0
-            while(i<Coins.coin_OnMap.size){
-                map!!.addMarker(MarkerOptions().position(Coins.coin_OnMap[i].coordinate)
-                        .title(Coins.coin_OnMap[i].currency)
+                map!!.addMarker(MarkerOptions().position(c.coordinate)
+                        .title(c.currency)
                         .icon(
-                                when(Coins.coin_OnMap[i].currency){
+                                when(c.currency){
                                     "QUID" -> iconFactory.fromResource(R.mipmap.markerq)
                                     "PENY" -> iconFactory.fromResource(R.mipmap.markerp)
                                     "DOLR" -> iconFactory.fromResource(R.mipmap.markerd)
@@ -328,16 +361,21 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
                                 }
                         )
                         .snippet(
-                                if(Coins.coin_OnMap[i].value.toString().length > 5){
-                                    Coins.coin_OnMap[i].value.toString().substring(0..5)
+                                if(c.value.toString().length > 5){
+                                    c.value.toString().substring(0..5)
                                 }else{
-                                    Coins.coin_OnMap[i].value.toString()
+                                    c.value.toString()
                                 }
                         )
                 )
-                i++
+                for(b in Buildings.list){
+                    map!!.addMarker(MarkerOptions().position(b.coordinate)
+                            .title(b.name)
+                            .icon(iconFactory.fromResource(R.mipmap.buildingicon))
+                            .snippet(b.description)
+                    )
+                }
             }
-
 
         }
         if(switcher == -1){
@@ -356,7 +394,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
                 showToast("map loading")
                 loopLoadingMap()
             }
-        },500)
+        },3000)
     }
 
     public override fun onStart() {

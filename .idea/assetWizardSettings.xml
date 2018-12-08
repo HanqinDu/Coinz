@@ -16,12 +16,27 @@
                             <entry key="launcherLegacy">
                               <value>
                                 <PersistentState>
+                                  <option name="children">
+                                    <map>
+                                      <entry key="image">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="paddingPercent" value="25" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                    </map>
+                                  </option>
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
                                       <entry key="iconShape" value="NONE" />
-                                      <entry key="imageAsset" value="D:\tutorial\year 3\coursework\LP\coin\markerS.png" />
-                                      <entry key="outputName" value="markers" />
+                                      <entry key="imageAsset" value="D:\tutorial\year 3\coursework\LP\coin\icons8-company-80.png" />
+                                      <entry key="outputName" value="buildingicon" />
                                     </map>
                                   </option>
                                 </PersistentState>

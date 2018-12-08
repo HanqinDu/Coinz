@@ -6,6 +6,19 @@ import org.json.JSONObject
 import s1615548.coinz.curToInt
 import java.util.*
 
+object Buildings{
+    var list = arrayListOf<Building>()
+    var access_range = 150
+
+    fun load(){
+        list.add(Building("Library", LatLng(55.942710,-3.189074), "learn information about chest"))
+        list.add(Building("Appleton Tower", LatLng(55.944263,-3.186688), "collect 3 random coins here"))
+        list.add(Building("George square", LatLng(55.943585,-3.188791), "information about the code"))
+        list.add(Building("Student Centre", LatLng(55.945924,-3.188141), "information about the next day's exchanging rate"))
+    }
+
+}
+
 object Golds{
     var value:Double = 0.0
 }
