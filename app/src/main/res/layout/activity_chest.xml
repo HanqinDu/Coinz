@@ -32,6 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="attempt and result:"
+        android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@+id/textCode"
         tools:layout_editor_absoluteX="16dp" />
 
@@ -40,6 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@+id/textInstructionChest"
         tools:layout_editor_absoluteX="32dp" />
 

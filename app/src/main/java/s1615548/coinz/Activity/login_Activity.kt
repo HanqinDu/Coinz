@@ -15,8 +15,10 @@ class login_Activity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        // getInstance from fire base
         mAuth = FirebaseAuth.getInstance()
 
+        // Button 1: create account
         btnCreate.setOnClickListener{
 
             if(input_email.text.toString().isNotEmpty() && input_password.text.toString().isNotEmpty()){
@@ -26,15 +28,16 @@ class login_Activity : AppCompatActivity(){
                             if (task.isSuccessful) {
                                 // Sign in success, update UI with user info
                                 showToast("create account" + input_email.text.toString())
+                                finish()
                             } else {
                                 // Sign in failed, display a message to the user
-                                showToast("create account fail")
+                                showToast("create account fail, please try other account or email address")
                             }
                         }
-
             }
         }
 
+        // Button 2: Login
         btnLogin.setOnClickListener{
 
             if(input_email.text.toString().isNotEmpty() && input_password.text.toString().isNotEmpty()){
@@ -49,18 +52,10 @@ class login_Activity : AppCompatActivity(){
                                 showToast("sign in fail")
                             }
                         }
-
             }
         }
 
 
     }
-
-    override fun onStart() {
-        super.onStart()
-        // Check if user is signed in (non´null) and update UI
-        // updateUI(mAuth?.currentUser)
-    }
-
 
 }

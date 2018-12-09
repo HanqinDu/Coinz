@@ -1,28 +1,30 @@
 package s1615548.coinz.Model
 
-import android.provider.Telephony
 import com.mapbox.mapboxsdk.geometry.LatLng
 import org.json.JSONObject
 import s1615548.coinz.curToInt
 import java.util.*
 
+// Data: building
 object Buildings{
     var list = arrayListOf<Building>()
-    var access_range = 150
+    var access_range = 50
 
     fun load(){
-        list.add(Building("Library", LatLng(55.942710,-3.189074), "learn information about chest"))
-        list.add(Building("Appleton Tower", LatLng(55.944263,-3.186688), "collect 3 random coins here"))
-        list.add(Building("George square", LatLng(55.943585,-3.188791), "information about the code"))
+        list.add(Building("Library", LatLng(55.942710,-3.189074), "information about the code of chest"))
+        list.add(Building("Appleton Tower", LatLng(55.944263,-3.186688), "collect random coins from map"))
+        list.add(Building("George square", LatLng(55.943585,-3.188791), "information about the location of chest"))
         list.add(Building("Student Centre", LatLng(55.945924,-3.188141), "information about the next day's exchanging rate"))
     }
 
 }
 
+// Data: Golds
 object Golds{
     var value:Double = 0.0
 }
 
+// Data: Chest
 object Chest{
     var chest_Location = LatLng(0.0, 0.0)
     var chest_State = 0   // 0: underground   1:been owned by player   2:already opened
@@ -65,8 +67,51 @@ object Chest{
         }
     }
 
+    fun tipCode():String{
+        val i = Random().nextInt(8)
+        val j = Random().nextInt(6) + 2
+        val k = Random().nextInt(4)
+
+        return when(i){
+            0 -> "the summing of the first three code is ${solution[0] + solution[1] + solution[2]}"
+            1,2 -> "the digit at position ${k+1} is ${solution[k]}"
+            2,3 -> "the digit at position ${k+1} is a ${if(solution[k]%2 == 0){"even number"}else{"odd number"}}"
+            else -> "the digit at position ${k+1} is ${if(solution[k] > j){"larger than $j"}else{"smaller or equal than $j"}}"
+        }
+    }
+
+    fun tipLocation(location: LatLng):String{
+        val latDifference = chest_Location.latitude - location.latitude
+        val lngDifference = chest_Location.longitude - location.longitude
+
+        var direction:String = ""
+        val distance = chest_Location.distanceTo(location)
+
+        if(latDifference>0){
+            if(lngDifference > 0){
+                direction = "east-north"
+            }else{
+                direction = "west-north"
+            }
+        }else{
+            if(lngDifference > 0){
+                direction = "east-south"
+            }else{
+                direction = "west-south"
+            }
+        }
+
+        return when(distance){
+            in 0..300 -> "the chest locate in the $direction quite close from here"
+            in 300..600 -> "the chest locate in the $direction not too far away from here"
+            else -> "the chest locate in the $direction quite far away from here"
+        }
+    }
+
 }
 
+
+// Data: coin
 object Coins{
     var rate_SHIL = 0.0
     var rate_DOLR = 0.0
@@ -172,6 +217,11 @@ object Coins{
         }
         
         return output
+    }
+
+    fun collect(i: Int){
+        coin_InWallet.add(coin_OnMap[i])
+        coin_OnMap.removeAt(i)
     }
 
     fun moveToBank(i:Int){

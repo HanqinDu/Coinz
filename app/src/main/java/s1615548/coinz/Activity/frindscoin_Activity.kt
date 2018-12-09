@@ -17,17 +17,39 @@ class frindscoin_Activity : AppCompatActivity() {
     // SQLite
     var db = DBHandler(this, name = "data.db", version = 1, factory = null)
 
+    // read data from wallet
+    val data: ArrayList<wallet_Layout>
+        get()
+        {
+            val item_list = ArrayList<wallet_Layout>()
+
+            var i = 0
+            while(i< Coins.coin_FromMail.size){
+                when(Coins.coin_FromMail[i].currency){
+                    "QUID" -> item_list.add(wallet_Layout(R.mipmap.quid, Coins.coin_FromMail[i].value.toString().substring(0..5)))
+                    "PENY" -> item_list.add(wallet_Layout(R.mipmap.peny, Coins.coin_FromMail[i].value.toString().substring(0..5)))
+                    "DOLR" -> item_list.add(wallet_Layout(R.mipmap.dolr, Coins.coin_FromMail[i].value.toString().substring(0..5)))
+                    "SHIL" -> item_list.add(wallet_Layout(R.mipmap.shil, Coins.coin_FromMail[i].value.toString().substring(0..5)))
+                }
+                i++
+            }
+
+            return item_list
+
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_frindscoin)
 
-        // GV adaptor
+        // set up Grid view adaptor with data
         val adapter = coins_gridview_adaptor(this, R.layout.layout_wallet, data)
         GV_wallet_mail.adapter = adapter
 
-        // text
+        // set text view
         instruction_mail_coin.text = "bank capacity: ${Coins.coin_InBank.size}/${Coins.bank_capacity}"
 
+        // Button 1: Grid view item click - turn dark when item selected
         GV_wallet_mail.setOnItemClickListener { parent, view, position, id ->
             if(adapter.selectedPositions[position]){
                 adapter.selectedPositions[position] = false
@@ -38,8 +60,7 @@ class frindscoin_Activity : AppCompatActivity() {
             }
         }
 
-        // button
-
+        //Button 2: save coins from friends' coins' wallet to Bank
         btnSaveFCoin.setOnClickListener{
             val number_of_selected_coin:Int = adapter.numSelect()
 
@@ -66,28 +87,11 @@ class frindscoin_Activity : AppCompatActivity() {
             }
         }
 
+        // Button 3: back
         btnBackFCoin.setOnClickListener{
             finish()
         }
     }
 
-    val data: ArrayList<wallet_Layout>
-        get()
-        {
-            val item_list = ArrayList<wallet_Layout>()
 
-            var i = 0
-            while(i< Coins.coin_FromMail.size){
-                when(Coins.coin_FromMail[i].currency){
-                    "QUID" -> item_list.add(wallet_Layout(R.mipmap.quid, Coins.coin_FromMail[i].value.toString().substring(0..5)))
-                    "PENY" -> item_list.add(wallet_Layout(R.mipmap.peny, Coins.coin_FromMail[i].value.toString().substring(0..5)))
-                    "DOLR" -> item_list.add(wallet_Layout(R.mipmap.dolr, Coins.coin_FromMail[i].value.toString().substring(0..5)))
-                    "SHIL" -> item_list.add(wallet_Layout(R.mipmap.shil, Coins.coin_FromMail[i].value.toString().substring(0..5)))
-                }
-                i++
-            }
-
-            return item_list
-
-        }
 }

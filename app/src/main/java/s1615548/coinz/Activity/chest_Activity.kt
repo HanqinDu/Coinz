@@ -11,9 +11,6 @@ import s1615548.coinz.R
 import s1615548.coinz.showToast
 
 class chest_Activity : AppCompatActivity() {
-    // SharedPreferences setting
-    val settings = getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE)
-    val editor = settings.edit()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,17 +21,21 @@ class chest_Activity : AppCompatActivity() {
         btnBreak.isEnabled = Chest.chest_State <2
         textResult.text = Chest.result
 
-
-        // button
+        // Button 1: submit code and return output on text view
         btnUnlock.setOnClickListener {
+            // SharedPreferences setting
+            val settings = getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE)
+            val editor = settings.edit()
+
+            // read input and check if it is 4 digits
             val input = textCode.text.toString()
 
             if(input.length == 4){
 
-                // save change in attempt
+                // reduce available attempt times
                 Chest.attempt--
-                editor.putInt("attempt",Chest.attempt)
 
+                // compute output
                 var a = 0
                 var b = 0
 
@@ -50,7 +51,7 @@ class chest_Activity : AppCompatActivity() {
                     }
                 }
 
-                // correct answer
+                // when answer is correct
                 if(a == 4){
                     Chest.chest_State = 2
                     Golds.value += (Chest.attempt+2)*500
@@ -58,7 +59,8 @@ class chest_Activity : AppCompatActivity() {
                     Chest.attempt = 0
                     btnUnlock.isEnabled = false
                     btnBreak.isEnabled = false
-                    Chest.result = "Chest has been unlocked"
+                    Chest.result += "Chest has been unlocked, code is ${Chest.solution}"
+                    Chest.result += "you receive ${(Chest.attempt+2)*500} golds"
 
                     // save data
                     editor.putString("gold", Golds.value.toString())
@@ -67,14 +69,16 @@ class chest_Activity : AppCompatActivity() {
                     editor.putInt("cheststate",Chest.chest_State)
                     editor.apply()
 
-                // wrong answer
+                // when answer is wrong
                 }else{
                     showToast("$attempt attempt remained")
-                    Chest.result += "${8-Chest.attempt}:      ${input[0]}      ${a}A${b}B\n"
+                    Chest.result += "${8-Chest.attempt}:      $input    ${a}A${b}B\n"
                     if(Chest.attempt < 1){
                         btnUnlock.isEnabled = false
                     }
                 }
+
+                // update text view
                 textResult.text = Chest.result
 
                 // save data
@@ -87,6 +91,7 @@ class chest_Activity : AppCompatActivity() {
             }
         }
 
+        // Button 2: break chest and get lowest amount of golds (1000)
         btnBreak.setOnClickListener{
             Chest.attempt = 0
             Golds.value += 1000
@@ -94,9 +99,13 @@ class chest_Activity : AppCompatActivity() {
             btnBreak.isEnabled = false
             Chest.chest_State = 2
             showToast("you receive 1000 golds by crashing the chest")
-            Chest.result = "Chest has been broken"
+            Chest.result += "Chest has been forced opened, code is ${Chest.solution}"
+            Chest.result += "you receive 1000 golds by crashing the chest"
             textResult.text = Chest.result
 
+            // save data
+            val settings = getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE)
+            val editor = settings.edit()
             editor.putString("gold", Golds.value.toString())
             editor.putString("result",Chest.result)
             editor.putInt("cheststate",Chest.chest_State)
@@ -104,6 +113,7 @@ class chest_Activity : AppCompatActivity() {
 
         }
 
+        // Button 3: back
         btnBackChest.setOnClickListener {
             finish()
         }

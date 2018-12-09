@@ -66,19 +66,20 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
     //implement download interface
     val DownloadCompleteRunner = object : DownloadCompleteListener {
         override fun downloadComplete(result: String) {
-
             Coins.downloadResult = result
 
-            // load data
+            // if the player is the first time play this game, download directly, else, load data first
             if(Coins.downloadDate == ""){
                 showCoins()
-                showToast("empty downloadDate")
             }else{
+
+                // load data from SQLite
                 db.loadMap()
                 db.loadBank()
                 db.loadWallet()
                 db.loadFWallet()
 
+                // try to load map every 3 second until success
                 loopLoadingMap()
             }
         }
@@ -128,19 +129,17 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         //download map
         mapURL = getURL()
 
-        // set buttons
-
-        btndig.isEnabled = Chest.shovel > 0 && Chest.chest_State == 0
-
-        // BUTTONS
-
+        // Button 1: collect reachable coins
         btnCollect.setOnClickListener{
 
+            // funcion collectIn return true when there is coin collected
             if(Coins.collectIn(LatLng(originLocation.latitude,originLocation.longitude))){
-                map!!.clear()
 
+                // refresh marker of map
+                map!!.clear()
                 val iconFactory = IconFactory.getInstance(this)
 
+                // add marker: coins on map
                 for(c in Coins.coin_OnMap){
                     map!!.addMarker(MarkerOptions().position(c.coordinate)
                             .title(c.currency)
@@ -163,6 +162,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
                     )
                 }
 
+                // add:marker building
                 for(b in Buildings.list){
                     map!!.addMarker(MarkerOptions().position(b.coordinate)
                             .title(b.name)
@@ -170,20 +170,23 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
                             .snippet(b.description)
                     )
                 }
-            }
 
+            }
         }
 
+        // Button 2: sign out
         btnSignout.setOnClickListener{
             FirebaseAuth.getInstance().signOut()
             showToast("sign out")
         }
 
+        // Button 3: open coins management menu
         btnWallet.setOnClickListener{
             intent = Intent(this, manageCoin_Activity::class.java)
             startActivity(intent)
         }
 
+        // Button 4: try to dig chest by consuming a shovel
         btndig.setOnClickListener{
             if(Chest.dig(LatLng(originLocation.latitude,originLocation.longitude))){
                 showToast("you find the chest!")
@@ -196,21 +199,43 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
             }
         }
 
+        // Button 5: enter nearby building
         btnBuilding.setOnClickListener {
+            // flag
+            var enter = false
+
+            // loop list of building and check distance
             for(b in Buildings.list){
                 if(b.coordinate.distanceTo(LatLng(originLocation.latitude,originLocation.longitude)) <= Buildings.access_range){
+
+                    enter = true
                     when(b.name){
                         "Library" -> startActivity(Intent(this, library_Activity::class.java))
                         "Appleton Tower" -> startActivity(Intent(this, appletonTower_Activity::class.java))
                         "George square" -> startActivity(Intent(this, georgeSquare_Activity::class.java))
                     }
                     break
+
                 }
             }
+
+            // if can't enter any building, show instruction
+            if(!enter){
+                showToast("you are not close enough to any building")
+            }
+
         }
 
 
         // test botton
+
+        btnTest.setOnClickListener {
+            startActivity(Intent(this, library_Activity::class.java))
+        }
+
+        btnTest2.setOnClickListener {
+            startActivity(Intent(this, georgeSquare_Activity::class.java))
+        }
 
         btnDelete.setOnClickListener{
 
@@ -375,6 +400,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
                             .snippet(b.description)
                     )
                 }
+
             }
 
         }
@@ -391,7 +417,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
             if(Coins.mapdataReady){
                 showCoins()
             }else{
-                showToast("map loading")
                 loopLoadingMap()
             }
         },3000)
@@ -400,12 +425,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
     public override fun onStart() {
         super.onStart()
         mapView?.onStart()
+
+        btndig.isEnabled = Chest.shovel > 0 && Chest.chest_State == 0
     }
 
     override fun onStop() {
         super.onStop()
 
-        // save last download date
+        // Save data: SharedPreferences
         val settings = getSharedPreferences(preferencesFile, Context.MODE_PRIVATE)
         val editor = settings.edit()
         editor.putString("lastDownloadDate", Coins.downloadDate)
@@ -426,12 +453,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         editor.putString("result",Chest.result)
         editor.apply()
 
-        // save data
-        db.deleteAll()
+        // Save data: SQLite
         db.saveWallet()
         db.saveBank()
         db.saveFWallet()
         db.saveMap()
+
     }
 
 }

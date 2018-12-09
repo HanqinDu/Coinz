@@ -16,6 +16,25 @@ import s1615548.coinz.showToast
 
 class wallet_Activity : AppCompatActivity(){
 
+    // read data from wallet
+    val data: ArrayList<wallet_Layout>
+        get()
+        {
+            val item_list = ArrayList<wallet_Layout>()
+
+            var i = 0
+            while(i< Coins.coin_InWallet.size){
+                when(Coins.coin_InWallet[i].currency){
+                    "QUID" -> item_list.add(wallet_Layout(R.mipmap.quid, Coins.coin_InWallet[i].value.toString().substring(0..5)))
+                    "PENY" -> item_list.add(wallet_Layout(R.mipmap.peny, Coins.coin_InWallet[i].value.toString().substring(0..5)))
+                    "DOLR" -> item_list.add(wallet_Layout(R.mipmap.dolr, Coins.coin_InWallet[i].value.toString().substring(0..5)))
+                    "SHIL" -> item_list.add(wallet_Layout(R.mipmap.shil, Coins.coin_InWallet[i].value.toString().substring(0..5)))
+                }
+                i++
+            }
+            return item_list
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wallet)
@@ -33,6 +52,7 @@ class wallet_Activity : AppCompatActivity(){
         instruction.text = "bank capacity: ${Coins.coin_InBank.size}/${Coins.bank_capacity}"
         instruction2.text = "daily capacity: ${Coins.transfer_made}/${Coins.daily_capacity}"
 
+        // Button: Grid view item click - turn dark when item selected
         GV_wallet.setOnItemClickListener { parent, view, position, id ->
             if(adapter.selectedPositions[position]){
                 adapter.selectedPositions[position] = false
@@ -80,27 +100,8 @@ class wallet_Activity : AppCompatActivity(){
         btnBackWallet.setOnClickListener{
             finish()
         }
-
     }
 
-    val data: ArrayList<wallet_Layout>
-        get()
-        {
-            val item_list = ArrayList<wallet_Layout>()
 
-            var i = 0
-            while(i< Coins.coin_InWallet.size){
-                when(Coins.coin_InWallet[i].currency){
-                    "QUID" -> item_list.add(wallet_Layout(R.mipmap.quid, Coins.coin_InWallet[i].value.toString().substring(0..5)))
-                    "PENY" -> item_list.add(wallet_Layout(R.mipmap.peny, Coins.coin_InWallet[i].value.toString().substring(0..5)))
-                    "DOLR" -> item_list.add(wallet_Layout(R.mipmap.dolr, Coins.coin_InWallet[i].value.toString().substring(0..5)))
-                    "SHIL" -> item_list.add(wallet_Layout(R.mipmap.shil, Coins.coin_InWallet[i].value.toString().substring(0..5)))
-                }
-                i++
-            }
-
-            return item_list
-
-        }
 
 }

@@ -31,6 +31,7 @@ class DBHandler(val context: Context?, name: String?, factory: SQLiteDatabase.Cu
 
     }
 
+    // create table for each list of coins
     override fun onCreate(db: SQLiteDatabase?) {
 
         val create_table_wallet = "CREATE TABLE $TABLE_WALLET ($COLUMN_CURRENCY TEXT, $COLUMN_VALUE TEXT, $COLUMN_ID TEXT)"
@@ -51,34 +52,43 @@ class DBHandler(val context: Context?, name: String?, factory: SQLiteDatabase.Cu
         onCreate(db)
     }
 
+    // save all the coins in wallet
     fun saveWallet(){
+        // empty the table and add coins one by one
         deleteTable(TABLE_WALLET)
         for(coin in coin_InWallet){
             addCoin(TABLE_WALLET,coin)
         }
     }
 
+    // save all the coins in bank
     fun saveBank(){
+        // empty the table and add coins one by one
         deleteTable(TABLE_BANK)
         for(coin in coin_InBank){
             addCoin(TABLE_BANK,coin)
         }
     }
 
+    // save all the coins in friends' coins' wallet
     fun saveFWallet(){
+        // empty the table and add coins one by one
         deleteTable(TABLE_FWALLET)
         for(coin in coin_FromMail){
             addCoin(TABLE_FWALLET,coin)
         }
     }
 
+    // save all the coins on map
     fun saveMap(){
+        // empty the table and add coins one by one
         deleteTable(TABLE_MAP)
         for(coin in coin_OnMap){
             addCoinWithLocation(TABLE_MAP,coin)
         }
     }
 
+    // addCoin to a table
     private fun addCoin(table:String, c: Coin){
         var values = ContentValues()
         values.put(COLUMN_CURRENCY,c.currency)
@@ -90,6 +100,7 @@ class DBHandler(val context: Context?, name: String?, factory: SQLiteDatabase.Cu
         db.insert(table, null, values)
     }
 
+    // addCoin with location to a table
     private fun addCoinWithLocation(table:String, c: Coin){
         var values = ContentValues()
         values.put(COLUMN_CURRENCY,c.currency)
@@ -103,6 +114,7 @@ class DBHandler(val context: Context?, name: String?, factory: SQLiteDatabase.Cu
         db.insert(table, null, values)
     }
 
+    // delete all data from a table
     private fun deleteTable(table: String){
 
         var db = writableDatabase
@@ -111,6 +123,7 @@ class DBHandler(val context: Context?, name: String?, factory: SQLiteDatabase.Cu
         }catch (e:Exception){}
     }
 
+    // delete data from all tables
     fun deleteAll(){
         var db = writableDatabase
         try{
@@ -121,6 +134,7 @@ class DBHandler(val context: Context?, name: String?, factory: SQLiteDatabase.Cu
         }catch (e:Exception){}
     }
 
+    // load data from SQLite to wallet
     fun loadWallet(){
         val db = writableDatabase
         val query = "SELECT * FROM $TABLE_WALLET WHERE 1"
@@ -143,6 +157,7 @@ class DBHandler(val context: Context?, name: String?, factory: SQLiteDatabase.Cu
         db.close()
     }
 
+    // load data from SQLite to bank
     fun loadBank(){
         val db = writableDatabase
         val query = "SELECT * FROM $TABLE_BANK WHERE 1"
@@ -163,6 +178,7 @@ class DBHandler(val context: Context?, name: String?, factory: SQLiteDatabase.Cu
         }
     }
 
+    // load data from SQLite to friends' coins' wallet
     fun loadFWallet(){
         val db = writableDatabase
         val query = "SELECT * FROM $TABLE_FWALLET WHERE 1"
@@ -183,6 +199,7 @@ class DBHandler(val context: Context?, name: String?, factory: SQLiteDatabase.Cu
         }
     }
 
+    // load data from SQLite to Map
     fun loadMap(){
         val db = writableDatabase
         val query = "SELECT * FROM $TABLE_MAP WHERE 1"
@@ -206,6 +223,5 @@ class DBHandler(val context: Context?, name: String?, factory: SQLiteDatabase.Cu
 
         mapdataReady = true
     }
-
 
 }

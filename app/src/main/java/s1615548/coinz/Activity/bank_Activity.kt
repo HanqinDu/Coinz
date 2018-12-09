@@ -16,12 +16,13 @@ import s1615548.coinz.showToast
 
 class bank_Activity : AppCompatActivity() {
 
+    // used for recording the total value of coin is selected in grid view
     var gold_will_gain: Double = 0.0
 
     // SQLite
     var db = DBHandler(this, name = "data.db", version = 1, factory = null)
 
-    // set up data of grid view
+    // read data from coins in Bank
     val data: ArrayList<wallet_Layout>
         get()
         {
@@ -40,22 +41,19 @@ class bank_Activity : AppCompatActivity() {
             return item_list
         }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bank)
 
-        // set up adapter for grid view
+        // set up adapter for grid view with data
         val adapter = coins_gridview_adaptor(this, R.layout.layout_wallet, data)
-
         GV_bank.adapter = adapter
 
         // set up text
         golds_number.text = "you have ${Golds.value.toInt()} golds"
         golds_willGain.text = "you will gain 0 golds"
 
-
-        // setting of the grid view
+        // // Button 1: Grid view item click - turn dark when item selected
         GV_bank.setOnItemClickListener { parent, view, position, id ->
             if(adapter.selectedPositions[position]){
                 adapter.selectedPositions[position] = false
@@ -73,9 +71,10 @@ class bank_Activity : AppCompatActivity() {
             }
         }
 
+        // Button 2: Convert selected coins to golds
         btnConverToGold.setOnClickListener{
 
-            // convert Coin to golds one by one
+            // convert Coin to golds with loop
             var i = 0
             var difference = 0
             while(i<adapter.selectedPositions.size){
@@ -87,18 +86,17 @@ class bank_Activity : AppCompatActivity() {
             }
             showToast("${gold_will_gain.toInt()} received")
 
-            // save data and finish activity
+            // save data
             val settings = getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE)
             val editor = settings.edit()
             editor.putString("gold", Golds.value.toString())
             editor.apply()
-
             db.saveBank()
-
 
             finish()
         }
 
+        // Button 3: back
         btnBackBank.setOnClickListener{
             finish()
         }

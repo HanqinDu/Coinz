@@ -14,6 +14,7 @@ import s1615548.coinz.Adapter.mail_recyclerview_adaptor
 import s1615548.coinz.Model.Coin
 import s1615548.coinz.Model.Coins
 import s1615548.coinz.Model.Coins.coin_FromMail
+import s1615548.coinz.Model.DBHandler
 import s1615548.coinz.R
 import s1615548.coinz.curToInt
 import s1615548.coinz.showToast
@@ -26,7 +27,7 @@ class mail_Activity : AppCompatActivity() {
     var document:ArrayList<String> = ArrayList<String>()
     var coins_number:ArrayList<Int> = ArrayList<Int>()
 
-    // fire base
+    // prepare variable for fire base
     private var firestore: FirebaseFirestore? = null
     private var mailRef: CollectionReference? = null
 
@@ -38,19 +39,23 @@ class mail_Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mail)
 
+        // SQLite
+        var db = DBHandler(this, name = "data.db", version = 1, factory = null)
+
         // fire base
         firestore = FirebaseFirestore.getInstance()
 
+        // create reference to the mail collection of current user
         val settings = FirebaseFirestoreSettings.Builder().setTimestampsInSnapshotsEnabled(true).build()
         firestore?.firestoreSettings = settings
-        mailRef = firestore?.collection(COLLECTION_KEY)?.document("user334")?.collection("mail")
+        mailRef = firestore?.collection(COLLECTION_KEY)?.document(FirebaseAuth.getInstance().currentUser!!.uid)?.collection("mail")
 
-        // recycler View
+        // recycler View adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
         val adaptor = mail_recyclerview_adaptor(mail,coins_number)
         recyclerView.adapter = adaptor
 
-        //download
+        // download data from fire base and refresh recycler view
         mailRef?.get()?.addOnSuccessListener{
             for(i in it){
                 coins.add(i.getString("Coins").toString())
@@ -62,9 +67,12 @@ class mail_Activity : AppCompatActivity() {
 
         }
 
-        // buttons
+        // set text
+        textUserID.text = FirebaseAuth.getInstance().currentUser!!.uid
 
+        // Button 1: collect coins in all the mails and delete them
         btnCollect.setOnClickListener{
+
             var i = 0
             var numberOfCoinCollected = 0
             while(i < document.size){
@@ -85,25 +93,35 @@ class mail_Activity : AppCompatActivity() {
 
                 i++
             }
+
+            // show result
             showToast("$numberOfCoinCollected coins collected")
 
+            // save data
+            db.saveFWallet()
+
+            // refresh view
             mail.clear()
             coins_number.clear()
             adaptor.notifyDataSetChanged()
+
         }
 
+        // Button 2: to the activity of sending mail
         btnSendMail.setOnClickListener{
             Coins.sort_wallet()
             intent = Intent(this, send_Activity::class.java)
             startActivity(intent)
         }
 
+        // Button 3: back
         btnBackMail.setOnClickListener{
             finish()
         }
 
     }
 
+    // Function: convert String from fire base to Coin
     fun StringToCoin(input: String): Coin {
         return(Coin(id = "0",currency = input.substringBefore(":"), value = input.substringAfter(":").toDouble(),type = curToInt(input.substringBefore(":"))))
     }

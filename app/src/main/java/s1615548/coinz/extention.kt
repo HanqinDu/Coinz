@@ -9,24 +9,29 @@ import android.widget.ImageView
 import android.widget.Toast
 import java.util.*
 
+// add function to Context to make Toast.makeText easier
 fun Context.showToast(message: String, duration: Int = Toast.LENGTH_SHORT){
     Toast.makeText(this,message, duration).show()
 }
 
+// get download URL with current date
 fun getURL():String{
 
+    // read date in three string
     val time = Calendar.getInstance()
-    time.setTimeZone(TimeZone.getTimeZone("GMT+1:00"))
+    time.timeZone = TimeZone.getTimeZone("GMT+1:00")
 
     var year = time.get(Calendar.YEAR).toString()
     var month = time.get(Calendar.MONTH).toString()
     var date = time.get(Calendar.DATE).toString()
 
+    // android's month begin with 0, so add one before use
     var mon = month.toInt()
     mon++
 
     month = mon.toString()
 
+    // add 0 in front of month and date if needed
     if(month.length == 1){
         month = "0$month"
     }
@@ -38,13 +43,14 @@ fun getURL():String{
 
 }
 
+// function that used to change light of icon
 fun changeLight(imageview: ImageView, brightness: Int){
     val array = floatArrayOf(1f,0f,0f,0f,brightness.toFloat(), 0f,1f,0f,0f,brightness.toFloat(),0f,0f,1f,0f,brightness.toFloat(),0f,0f,0f,1f,0f)
     var matrix = ColorMatrix(array)
-    imageview.setColorFilter(ColorMatrixColorFilter(matrix))
+    imageview.colorFilter = ColorMatrixColorFilter(matrix)
 }
 
-
+// convert currency to int so that Coins can be sorted easier
 fun curToInt(input: String): Int{
     return when(input){
         "PENY" -> 4

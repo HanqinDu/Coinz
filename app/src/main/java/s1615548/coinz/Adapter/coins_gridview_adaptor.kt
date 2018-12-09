@@ -14,8 +14,10 @@ import s1615548.coinz.changeLight
 class coins_gridview_adaptor(private val getContext: Context, private val CustomLayoutId: Int, private val custom_item: ArrayList<wallet_Layout>)
     : ArrayAdapter<wallet_Layout>(getContext, CustomLayoutId, custom_item) {
 
+    // record coins which are selected
     var selectedPositions = MutableList<Boolean>(custom_item.size+1){false}
 
+    // connect view to wallet_Layout
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
         var row = convertView
@@ -55,6 +57,7 @@ class coins_gridview_adaptor(private val getContext: Context, private val Custom
         internal var txt : TextView? = null
     }
 
+    // return the total number of selected item
     fun numSelect(): Int{
         var output = 0
 

@@ -10,6 +10,7 @@ import s1615548.coinz.R
 
 class mail_recyclerview_adaptor(val titles: ArrayList<String>, val coins: ArrayList<Int>): RecyclerView.Adapter<mail_recyclerview_adaptor.ViewHolder>() {
 
+    // title and number of coins in each mail will be showed in recycler view
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder{
         val view:View = LayoutInflater.from(parent.context).inflate(R.layout.layout_mail, parent, false)
 

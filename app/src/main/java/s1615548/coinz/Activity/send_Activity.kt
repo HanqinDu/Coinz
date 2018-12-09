@@ -55,12 +55,14 @@ class send_Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_send)
 
-        // GV
-
+        // set adapter for grid view
         val adapter = coins_gridview_adaptor(this, R.layout.layout_wallet, GV_data)
-
         GV_send.adapter = adapter
 
+        // firestore
+        firestore = FirebaseFirestore.getInstance()
+
+        // Button 1: Grid view item click - turn dark when item selected
         GV_send.setOnItemClickListener { parent, view, position, id ->
             if(adapter.selectedPositions[position]){
                 adapter.selectedPositions[position] = false
@@ -71,56 +73,58 @@ class send_Activity : AppCompatActivity() {
             }
         }
 
-        // firestore
-        firestore = FirebaseFirestore.getInstance()
+        // Button 2: send mail
+        btnSend.setOnClickListener{
+            if(text_userID.toString().length != 28){
+                showToast("please enter a valid user ID")
+            }else{
+                // fire base reference
+                val settings = FirebaseFirestoreSettings.Builder().setTimestampsInSnapshotsEnabled(true).build()
+                firestore?.firestoreSettings = settings
+                mailRef = firestore?.collection(COLLECTION_KEY)?.document(text_userID.toString())?.collection("mail")
 
-        val settings = FirebaseFirestoreSettings.Builder().setTimestampsInSnapshotsEnabled(true).build()
-        firestore?.firestoreSettings = settings
-        mailRef = firestore?.collection(COLLECTION_KEY)?.document("user334")?.collection("mail")
+                // convert coins to one String
+                var sendlist = ""
+                var i = 0
+                var coins_sends = 0
+                while(i < Coins.coin_InWallet.size){
+                    if(adapter.selectedPositions[i]){
+                        sendlist += Coins.coin_InWallet[i].toString() + "/"
+                        coins_sends++
+                    }
+                    i++
+                }
 
 
-        // button
+                val newMessage = mapOf(
+                        "Message" to text_notes.text.toString(),
+                        "Coins" to sendlist,
+                        "Number" to coins_sends
+                )
 
-        btnBackSend.setOnClickListener{
-            finish()
+                mailRef?.add(newMessage)
+                        ?.addOnSuccessListener {
+                            showToast("$coins_sends Coins sent")
+
+                            var i = 0
+                            var difference = 0
+                            while(i<adapter.selectedPositions.size){
+                                if(adapter.selectedPositions[i]){
+                                    Coins.send(i-difference)
+                                    difference++
+                                }
+                                i++
+                            }
+
+                            finish()
+                        }
+                        ?.addOnFailureListener { e -> Log.e(TAG, e.message) }
+            }
         }
 
-        btnSend.setOnClickListener{
-
-            var sendlist = ""
-            var i = 0
-            var coins_sends = 0
-            while(i < Coins.coin_InWallet.size){
-                if(adapter.selectedPositions[i]){
-                    sendlist += Coins.coin_InWallet[i].toString()
-                    coins_sends++
-                }
-                i++
-            }
-
-            val newMessage = mapOf(
-                    "Message" to text_notes.text.toString(),
-                    "Coins" to sendlist,
-                    "Number" to coins_sends
-            )
-
-            mailRef?.add(newMessage)
-                    ?.addOnSuccessListener {
-                        showToast("$coins_sends Coins sent")
-
-                        var i = 0
-                        var difference = 0
-                        while(i<adapter.selectedPositions.size){
-                            if(adapter.selectedPositions[i]){
-                                Coins.send(i-difference)
-                                difference++
-                            }
-                            i++
-                        }
-
-                        finish()
-                    }
-                    ?.addOnFailureListener { e -> Log.e(TAG, e.message) }
+        // Button 3: back
+        btnBackSend.setOnClickListener{
+            finish()
         }
 
     }
