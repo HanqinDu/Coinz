@@ -75,13 +75,13 @@ class send_Activity : AppCompatActivity() {
 
         // Button 2: send mail
         btnSend.setOnClickListener{
-            if(text_userID.toString().length != 28){
+            if(text_userID.text.toString().length != 28){
                 showToast("please enter a valid user ID")
             }else{
                 // fire base reference
                 val settings = FirebaseFirestoreSettings.Builder().setTimestampsInSnapshotsEnabled(true).build()
                 firestore?.firestoreSettings = settings
-                mailRef = firestore?.collection(COLLECTION_KEY)?.document(text_userID.toString())?.collection("mail")
+                mailRef = firestore?.collection(COLLECTION_KEY)?.document(text_userID.text.toString())?.collection("mail")
 
                 // convert coins to one String
                 var sendlist = ""

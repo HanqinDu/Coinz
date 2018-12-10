@@ -19,7 +19,7 @@ class georgeSquare_Activity : AppCompatActivity() {
         val cost = 200
 
         // set up text and button
-        introGeorge.text = "You may get a tip about the code of the chest with 200 golds"
+        introGeorge.text = "You may get a tip about the location of the chest with 200 golds"
         introGeorge2.text = "you have ${Golds.value.toInt()} golds"
         btnBuyGeorge.isEnabled = Golds.value >= cost
 

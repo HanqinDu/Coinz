@@ -56,11 +56,11 @@ class chest_Activity : AppCompatActivity() {
                     Chest.chest_State = 2
                     Golds.addGold(((Chest.attempt+2)*500).toDouble())
                     showToast("Chest unlock! you have received ${(Chest.attempt+3)*500} golds")
+                    Chest.result += "Chest unlocked, code is ${Chest.solution}\n"
+                    Chest.result += "you receive ${(Chest.attempt+3)*500} golds"
                     Chest.attempt = 0
                     btnUnlock.isEnabled = false
                     btnBreak.isEnabled = false
-                    Chest.result += "Chest unlocked, code is ${Chest.solution}\n"
-                    Chest.result += "you receive ${(Chest.attempt+3)*500} golds"
 
                     // save data
                     editor.putString("gold", Golds.value.toString())
@@ -99,7 +99,7 @@ class chest_Activity : AppCompatActivity() {
             btnBreak.isEnabled = false
             Chest.chest_State = 2
             showToast("you receive 1000 golds by crashing the chest")
-            Chest.result += "Chest is broken, code is ${Chest.solution}"
+            Chest.result += "Chest is broken, code is ${Chest.solution}\n"
             Chest.result += "you receive 1000 golds"
             textResult.text = Chest.result
 

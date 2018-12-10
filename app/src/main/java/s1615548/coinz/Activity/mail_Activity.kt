@@ -68,7 +68,7 @@ class mail_Activity : AppCompatActivity() {
         }
 
         // set text
-        textUserID.text = FirebaseAuth.getInstance().currentUser!!.uid
+        textUserID.text = FirebaseAuth.getInstance().currentUser!!.uid + '/'
 
         // Button 1: collect coins in all the mails and delete them
         btnCollect.setOnClickListener{

@@ -19,7 +19,7 @@ class mail_recyclerview_adaptor(val titles: ArrayList<String>, val coins: ArrayL
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.mail_title.text = titles[position]
-        holder.coins_number.text = "Contains" + coins[position].toString() + "coins"
+        holder.coins_number.text = "Contains " + coins[position].toString() + " coins"
 
     }
 

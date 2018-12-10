@@ -237,6 +237,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
             startActivity(Intent(this, georgeSquare_Activity::class.java))
         }
 
+        btntest3.setOnClickListener {
+            startActivity(Intent(this, appletonTower_Activity::class.java))
+        }
+
         btnDelete.setOnClickListener{
 
             db.deleteAll()

@@ -20,7 +20,7 @@ class library_Activity : AppCompatActivity() {
         // set up text and button
         var numberOfResult = 0
         var result = ""
-        introLibrary.text = "You may buy information relates to the location of the chest with 350 golds"
+        introLibrary.text = "You may buy information relates to the code of the chest with 350 golds"
         introLibrary2.text = "you have ${Golds.value.toInt()} golds"
         btnBuyLibrary.isEnabled = Golds.value >= cost
 
