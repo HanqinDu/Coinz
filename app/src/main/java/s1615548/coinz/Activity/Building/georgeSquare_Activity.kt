@@ -27,7 +27,7 @@ class georgeSquare_Activity : AppCompatActivity() {
         btnBuyGeorge.setOnClickListener {
 
             // show tips
-            Golds.value -= cost
+            Golds.reduceGold(cost.toDouble())
             outputGeorge.text = Chest.tipLocation(LatLng(55.943585,-3.188791))
 
             // refresh text

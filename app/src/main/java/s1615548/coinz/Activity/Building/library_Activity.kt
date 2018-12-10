@@ -28,7 +28,7 @@ class library_Activity : AppCompatActivity() {
         btnBuyLibrary.setOnClickListener {
 
             // get tips
-            Golds.value -= cost
+            Golds.reduceGold(cost.toDouble())
             numberOfResult++
             result += numberOfResult.toString() + ", " + Chest.tipCode() + "\n"
 

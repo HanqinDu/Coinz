@@ -106,6 +106,8 @@ class send_Activity : AppCompatActivity() {
                         ?.addOnSuccessListener {
                             showToast("$coins_sends Coins sent")
 
+                            // Once the coin is removed from array list, the coins after that coin move forwards
+                            // therefore, we should track the difference and use it to eliminate change in position
                             var i = 0
                             var difference = 0
                             while(i<adapter.selectedPositions.size){

@@ -38,7 +38,7 @@ class appletonTower_Activity : AppCompatActivity() {
 
                 // collect random coin and move to wallet
                 val random_index = Random().nextInt(Coins.coin_OnMap.size)
-                Golds.value -= cost
+                Golds.reduceGold(cost.toDouble())
                 result += "${Coins.coin_OnMap[random_index]} is collected\n"
                 Coins.collect(random_index)
 

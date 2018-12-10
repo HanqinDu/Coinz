@@ -4,23 +4,24 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_manage_coin.*
+import kotlinx.android.synthetic.main.activity_menu.*
 import s1615548.coinz.Model.Chest
 import s1615548.coinz.Model.Coins
 import s1615548.coinz.R
 import s1615548.coinz.showToast
 
-class manageCoin_Activity : AppCompatActivity() {
+class menu_Activity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_manage_coin)
+        setContentView(R.layout.activity_menu)
 
         // show exchanging rate on view
         text_rate_peny.text = "PENY: ${Coins.rate_PENY}"
         text_rate_dolr.text = "DOLR: ${Coins.rate_DOLR}"
         text_rate_shil.text = "SHIL: ${Coins.rate_SHIL}"
         text_rate_quid.text = "QUID: ${Coins.rate_QUID}"
+        textShovel.text = "Number of Shovel: ${Chest.shovel}"
 
         btnChest.isEnabled = Chest.chest_State == 1
 

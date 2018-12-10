@@ -22,6 +22,14 @@ object Buildings{
 // Data: Golds
 object Golds{
     var value:Double = 0.0
+
+    fun addGold(gold: Double){
+        value += gold
+    }
+
+    fun reduceGold(gold: Double){
+        value -= gold
+    }
 }
 
 // Data: Chest
@@ -151,8 +159,6 @@ object Coins{
 
         if(downloadDate == jsonObject.getString("date-generated")){
 
-            transfer_made = 0
-            send_made = 0
             return 2
         }else{
             downloadDate = jsonObject.getString("date-generated")
@@ -160,6 +166,8 @@ object Coins{
 
         // 1: update begin
 
+        transfer_made = 0
+        send_made = 0
         coin_OnMap.clear()
         coin_FromMail.clear()
         coin_InWallet.clear()
@@ -241,14 +249,14 @@ object Coins{
         send_made++
     }
 
-    fun converToGold(i:Int){
-        when(coin_InBank[i].currency){
-            "SHIL" -> Golds.value += coin_InBank[i].value * rate_SHIL
-            "DOLR" -> Golds.value += coin_InBank[i].value * rate_DOLR
-            "QUID" -> Golds.value += coin_InBank[i].value * rate_QUID
-            "PENY" -> Golds.value += coin_InBank[i].value * rate_PENY
+    fun converToGold(i:Int):Double{
+        return when(coin_InBank[i].currency){
+            "SHIL" -> coin_InBank[i].value * rate_SHIL
+            "DOLR" -> coin_InBank[i].value * rate_DOLR
+            "QUID" -> coin_InBank[i].value * rate_QUID
+            "PENY" -> coin_InBank[i].value * rate_PENY
+            else -> 0.0
         }
-        coin_InBank.removeAt(i)
     }
 
     fun value_bank(i:Int): Double{

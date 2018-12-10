@@ -75,11 +75,14 @@ class bank_Activity : AppCompatActivity() {
         btnConverToGold.setOnClickListener{
 
             // convert Coin to golds with loop
+            // Once the coin is removed from array list, the coins after that coin move forwards
+            // therefore, we should track the difference and use it to eliminate change in position
             var i = 0
             var difference = 0
             while(i<adapter.selectedPositions.size){
                 if(adapter.selectedPositions[i]){
-                    Coins.converToGold(i-difference)
+                    Golds.addGold(Coins.converToGold(i-difference))
+                    Coins.coin_InBank.removeAt(i-difference)
                     difference++
                 }
                 i++

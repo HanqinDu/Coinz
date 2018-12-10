@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.manageCoin_Activity">
+    tools:context=".Activity.menu_Activity">
 
     <TextView
         android:id="@+id/text_rate_peny2"
@@ -104,4 +104,13 @@
         android:text="Chest"
         app:layout_constraintBottom_toTopOf="@+id/btnManageCoinBack"
         tools:layout_editor_absoluteX="148dp" />
+
+    <TextView
+        android:id="@+id/textShovel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintTop_toBottomOf="@+id/text_rate_quid"
+        tools:layout_editor_absoluteX="125dp" />
 </android.support.constraint.ConstraintLayout>

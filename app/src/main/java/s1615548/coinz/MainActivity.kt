@@ -30,7 +30,7 @@ import com.mapbox.mapboxsdk.annotations.MarkerOptions
 import s1615548.coinz.Activity.Building.appletonTower_Activity
 import s1615548.coinz.Activity.Building.georgeSquare_Activity
 import s1615548.coinz.Activity.Building.library_Activity
-import s1615548.coinz.Activity.manageCoin_Activity
+import s1615548.coinz.Activity.menu_Activity
 import s1615548.coinz.Model.*
 
 @Suppress("DEPRECATION")
@@ -182,7 +182,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
 
         // Button 3: open coins management menu
         btnWallet.setOnClickListener{
-            intent = Intent(this, manageCoin_Activity::class.java)
+            intent = Intent(this, menu_Activity::class.java)
             startActivity(intent)
         }
 
@@ -246,6 +246,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
             Coins.coin_InWallet.clear()
             Coins.coin_OnMap.clear()
             Coins.downloadDate = ""
+            Coins.transfer_made = 0
 
             Chest.chest_State = 0
             Chest.shovel = 5
@@ -255,6 +256,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
             Chest.solution[1] = 10
             Chest.solution[2] = 10
             Chest.solution[3] = 10
+
         }
 
         btnIncreaseR.setOnClickListener{
@@ -435,6 +437,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         // Save data: SharedPreferences
         val settings = getSharedPreferences(preferencesFile, Context.MODE_PRIVATE)
         val editor = settings.edit()
+        editor.putInt("transfermade", Coins.transfer_made) // can be deleted
         editor.putString("lastDownloadDate", Coins.downloadDate)
         editor.putString("gold", Golds.value.toString())
         editor.putString("penyrate",Coins.rate_PENY.toString())

@@ -68,6 +68,9 @@ class frindscoin_Activity : AppCompatActivity() {
                 number_of_selected_coin == 0 -> showToast("please select at least one coin")
                 number_of_selected_coin + Coins.coin_InBank.size > Coins.bank_capacity -> showToast("the number of coins exceed the bank capacity by " + (number_of_selected_coin + Coins.coin_InBank.size - Coins.bank_capacity))
                 else -> {
+
+                    // Once the coin is removed from array list, the coins after that coin move forwards
+                    // therefore, we should track the difference and use it to eliminate change in position
                     var i = 0
                     var difference = 0
                     while(i<adapter.selectedPositions.size){

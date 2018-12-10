@@ -54,13 +54,13 @@ class chest_Activity : AppCompatActivity() {
                 // when answer is correct
                 if(a == 4){
                     Chest.chest_State = 2
-                    Golds.value += (Chest.attempt+2)*500
-                    showToast("Chest unlock! you have received ${(Chest.attempt+2)*500} golds")
+                    Golds.addGold(((Chest.attempt+2)*500).toDouble())
+                    showToast("Chest unlock! you have received ${(Chest.attempt+3)*500} golds")
                     Chest.attempt = 0
                     btnUnlock.isEnabled = false
                     btnBreak.isEnabled = false
-                    Chest.result += "Chest has been unlocked, code is ${Chest.solution}"
-                    Chest.result += "you receive ${(Chest.attempt+2)*500} golds"
+                    Chest.result += "Chest unlocked, code is ${Chest.solution}\n"
+                    Chest.result += "you receive ${(Chest.attempt+3)*500} golds"
 
                     // save data
                     editor.putString("gold", Golds.value.toString())
@@ -94,13 +94,13 @@ class chest_Activity : AppCompatActivity() {
         // Button 2: break chest and get lowest amount of golds (1000)
         btnBreak.setOnClickListener{
             Chest.attempt = 0
-            Golds.value += 1000
+            Golds.addGold(1000.0)
             btnUnlock.isEnabled = false
             btnBreak.isEnabled = false
             Chest.chest_State = 2
             showToast("you receive 1000 golds by crashing the chest")
-            Chest.result += "Chest has been forced opened, code is ${Chest.solution}"
-            Chest.result += "you receive 1000 golds by crashing the chest"
+            Chest.result += "Chest is broken, code is ${Chest.solution}"
+            Chest.result += "you receive 1000 golds"
             textResult.text = Chest.result
 
             // save data
@@ -118,6 +118,5 @@ class chest_Activity : AppCompatActivity() {
             finish()
         }
     }
-
 
 }
