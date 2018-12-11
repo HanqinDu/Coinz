@@ -38,6 +38,12 @@ class coins_gridview_adaptor(private val getContext: Context, private val Custom
 
         val item = custom_item[position]
 
+        if(selectedPositions[position]){
+            changeLight(Holder.img!!,-80)
+        }else{
+            changeLight(Holder.img!!,0)
+        }
+
         Holder.img!!.setImageResource(item.image)
         Holder.txt!!.setText(item.text)
 

@@ -23,16 +23,6 @@
         />
 
     <Button
-        android:id="@+id/btnIncreaseR"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="R+50"
-        mapbox:layout_constraintStart_toStartOf="parent"
-        mapbox:layout_constraintTop_toTopOf="parent" />
-
-    <Button
         android:id="@+id/btnCollect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,7 +40,7 @@
         android:layout_marginTop="8dp"
         android:text="sign out"
         mapbox:layout_constraintStart_toStartOf="parent"
-        mapbox:layout_constraintTop_toBottomOf="@+id/btnIncreaseR" />
+        mapbox:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnWallet"
@@ -61,16 +51,6 @@
         android:text="Menu"
         mapbox:layout_constraintBottom_toBottomOf="parent"
         mapbox:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btnDelete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="9dp"
-        android:text="delete data"
-        mapbox:layout_constraintEnd_toEndOf="parent"
-        mapbox:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btndig"
@@ -96,30 +76,10 @@
         android:id="@+id/btnTest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="test"
-        mapbox:layout_constraintStart_toStartOf="parent"
-        mapbox:layout_constraintTop_toBottomOf="@+id/btnSignout" />
-
-    <Button
-        android:id="@+id/btnTest2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="9dp"
-        android:text="test2"
-        mapbox:layout_constraintStart_toStartOf="parent"
-        mapbox:layout_constraintTop_toBottomOf="@+id/btnTest" />
-
-    <Button
-        android:id="@+id/btntest3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="test3"
-        mapbox:layout_constraintStart_toStartOf="parent"
-        mapbox:layout_constraintTop_toBottomOf="@+id/btnTest2" />
+        android:layout_marginEnd="8dp"
+        android:text="for test"
+        mapbox:layout_constraintEnd_toEndOf="parent"
+        mapbox:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

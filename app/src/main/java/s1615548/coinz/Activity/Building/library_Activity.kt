@@ -34,7 +34,7 @@ class library_Activity : AppCompatActivity() {
 
             // refresh text and button
             outputLibrary.text = result
-            introLibrary2.text = "golds: ${Golds.value}"
+            introLibrary2.text = "you have ${Golds.value.toInt()} golds"
             btnBuyLibrary.isEnabled = Golds.value >= cost
 
             // save data

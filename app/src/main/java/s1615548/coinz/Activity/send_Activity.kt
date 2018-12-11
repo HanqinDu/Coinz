@@ -27,16 +27,21 @@ class send_Activity : AppCompatActivity() {
         get()
         {
             val item_list = ArrayList<wallet_Layout>()
+            var value = ""
 
-            var i = 0
-            while(i< Coins.coin_InWallet.size){
-                when(Coins.coin_InWallet[i].currency){
-                    "QUID" -> item_list.add(wallet_Layout(R.mipmap.quid, Coins.coin_InWallet[i].value.toString().substring(0..5)))
-                    "PENY" -> item_list.add(wallet_Layout(R.mipmap.peny, Coins.coin_InWallet[i].value.toString().substring(0..5)))
-                    "DOLR" -> item_list.add(wallet_Layout(R.mipmap.dolr, Coins.coin_InWallet[i].value.toString().substring(0..5)))
-                    "SHIL" -> item_list.add(wallet_Layout(R.mipmap.shil, Coins.coin_InWallet[i].value.toString().substring(0..5)))
+            for(c in Coins.coin_InWallet){
+                value = c.value.toString()
+
+                // avoid IndexOutOfBoundsException
+                if(value.length > 5){
+                    value = value.substring(0..5)
                 }
-                i++
+                when(c.currency){
+                    "QUID" -> item_list.add(wallet_Layout(R.mipmap.quid, value))
+                    "PENY" -> item_list.add(wallet_Layout(R.mipmap.peny, value))
+                    "DOLR" -> item_list.add(wallet_Layout(R.mipmap.dolr, value))
+                    "SHIL" -> item_list.add(wallet_Layout(R.mipmap.shil, value))
+                }
             }
             return item_list
         }

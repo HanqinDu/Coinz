@@ -192,7 +192,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
                 showToast("you find the chest!")
                 btndig.isEnabled = false
             }else{
-                showToast("there is nothing here, ${Chest.shovel} shovel left")
+                showToast("${Chest.tipLocation(LatLng(originLocation.latitude,originLocation.longitude))}, ${Chest.shovel} shovel left")
                 if(Chest.shovel <= 0){
                     btndig.isEnabled = false
                 }
@@ -230,44 +230,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
         // test botton
 
         btnTest.setOnClickListener {
-            startActivity(Intent(this, library_Activity::class.java))
+            startActivity(Intent(this, TestActivity::class.java))
         }
 
-        btnTest2.setOnClickListener {
-            startActivity(Intent(this, georgeSquare_Activity::class.java))
-        }
-
-        btntest3.setOnClickListener {
-            startActivity(Intent(this, appletonTower_Activity::class.java))
-        }
-
-        btnDelete.setOnClickListener{
-
-            db.deleteAll()
-
-            Golds.value = 0.0
-
-            Coins.coin_InWallet.clear()
-            Coins.coin_OnMap.clear()
-            Coins.downloadDate = ""
-            Coins.transfer_made = 0
-
-            Chest.chest_State = 0
-            Chest.shovel = 5
-            Chest.attempt = 8
-            Chest.result = ""
-            Chest.solution[0] = 10
-            Chest.solution[1] = 10
-            Chest.solution[2] = 10
-            Chest.solution[3] = 10
-
-        }
-
-        btnIncreaseR.setOnClickListener{
-            Coins.collect_range += 50
-            Chest.collect_range += 50
-            showToast("collection range = " + Coins.collect_range)
-        }
 
     }
 
@@ -431,6 +396,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
     public override fun onStart() {
         super.onStart()
         mapView?.onStart()
+
+        if(Coins.map_change){
+            showCoins()
+            Coins.map_change = false
+        }
 
         btndig.isEnabled = Chest.shovel > 0 && Chest.chest_State == 0
     }

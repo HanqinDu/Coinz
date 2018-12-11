@@ -18,6 +18,7 @@ import s1615548.coinz.Model.DBHandler
 import s1615548.coinz.R
 import s1615548.coinz.curToInt
 import s1615548.coinz.showToast
+import java.lang.Exception
 
 class mail_Activity : AppCompatActivity() {
 
@@ -68,7 +69,7 @@ class mail_Activity : AppCompatActivity() {
         }
 
         // set text
-        textUserID.text = FirebaseAuth.getInstance().currentUser!!.uid + '/'
+        textUserID.text = FirebaseAuth.getInstance().currentUser!!.uid
 
         // Button 1: collect coins in all the mails and delete them
         btnCollect.setOnClickListener{
@@ -123,7 +124,11 @@ class mail_Activity : AppCompatActivity() {
 
     // Function: convert String from fire base to Coin
     fun StringToCoin(input: String): Coin {
-        return(Coin(id = "0",currency = input.substringBefore(":"), value = input.substringAfter(":").toDouble(),type = curToInt(input.substringBefore(":"))))
+        return try {
+            (Coin(id = "0",currency = input.substringBefore(":"), value = input.substringAfter(":").toDouble(),type = curToInt(input.substringBefore(":"))))
+        }catch (e:Exception){
+            Coin("null",0.0, "null")
+        }
     }
 
 }

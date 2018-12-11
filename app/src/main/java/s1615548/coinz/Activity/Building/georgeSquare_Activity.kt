@@ -31,7 +31,7 @@ class georgeSquare_Activity : AppCompatActivity() {
             outputGeorge.text = Chest.tipLocation(LatLng(55.943585,-3.188791))
 
             // refresh text
-            introGeorge2.text = "golds: ${Golds.value}"
+            introGeorge2.text = "you have ${Golds.value.toInt()} golds"
 
             // save data
             val settings = getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE)

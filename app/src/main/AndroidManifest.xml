@@ -33,7 +33,9 @@
         <activity android:name=".Activity.chest_Activity" />
         <activity android:name=".Activity.Building.library_Activity" />
         <activity android:name=".Activity.Building.appletonTower_Activity" />
-        <activity android:name=".Activity.Building.georgeSquare_Activity"></activity>
+        <activity android:name=".Activity.Building.georgeSquare_Activity" />
+        <activity android:name=".TestActivity" />
+        <activity android:name=".ToTestActivity"></activity>
     </application>
 
 </manifest>

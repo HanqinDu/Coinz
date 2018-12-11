@@ -10,7 +10,7 @@ import android.widget.Toast
 import java.util.*
 
 // add function to Context to make Toast.makeText easier
-fun Context.showToast(message: String, duration: Int = Toast.LENGTH_SHORT){
+fun Context.showToast(message: String, duration: Int = Toast.LENGTH_LONG){
     Toast.makeText(this,message, duration).show()
 }
 

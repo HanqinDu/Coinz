@@ -44,7 +44,7 @@ class appletonTower_Activity : AppCompatActivity() {
 
                 // update text and button
                 outputAppleton.text = result
-                introAppleton2.text = "golds: ${Golds.value}"
+                introAppleton2.text = "you have ${Golds.value.toInt()} golds"
                 btnBuyAppleton.isEnabled = Golds.value >= cost && Coins.coin_OnMap.size > 0
 
                 // save data
@@ -53,6 +53,9 @@ class appletonTower_Activity : AppCompatActivity() {
                 editor.putString("gold", Golds.value.toString())
                 editor.apply()
                 db.saveWallet()
+
+                // switch flag
+                Coins.map_change = true
 
             }else{
                 showToast("there is no coin on map")

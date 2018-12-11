@@ -14,7 +14,6 @@ object Buildings{
         list.add(Building("Library", LatLng(55.942710,-3.189074), "information about the code of chest"))
         list.add(Building("Appleton Tower", LatLng(55.944263,-3.186688), "collect random coins from map"))
         list.add(Building("George square", LatLng(55.943585,-3.188791), "information about the location of chest"))
-        list.add(Building("Student Centre", LatLng(55.945924,-3.188141), "information about the next day's exchanging rate"))
     }
 
 }
@@ -38,7 +37,7 @@ object Chest{
     var chest_State = 0   // 0: underground   1:been owned by player   2:already opened
     var shovel = 0
     var solution = mutableListOf(10, 10, 10, 10)
-    var collect_range = 100
+    var collect_range = 150
     var attempt = 8
     var result = ""
 
@@ -121,16 +120,22 @@ object Chest{
 
 // Data: coin
 object Coins{
+
+    // flag
+    var map_change = false
+    var mapdataReady = false
+
+    // changing rate
     var rate_SHIL = 0.0
     var rate_DOLR = 0.0
     var rate_QUID = 0.0
     var rate_PENY = 0.0
 
-    var mapdataReady = false
-
+    // capacity
     val bank_capacity = 300
     val daily_capacity = 25
 
+    // data of coins and map
     var collect_range:Double = 50.0
     var transfer_made = 0
     var send_made = 0
@@ -140,7 +145,8 @@ object Coins{
     var coin_InBank = arrayListOf<Coin>()
     var coin_FromMail = arrayListOf<Coin>()
     var downloadResult: String = ""
-    
+
+
     fun update_map():Int{
 
         // 0: download processing;  1: update map complete;  2: it's the same map;  -1: fail to download
