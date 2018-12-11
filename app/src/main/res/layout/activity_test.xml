@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TestActivity">
+
+    <Button
+        android:id="@+id/btnAddWallet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="add coins to wallet"
+        app:layout_constraintBottom_toTopOf="@+id/btnAddBank"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/btnGetChest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="get the chest"
+        app:layout_constraintBottom_toTopOf="@+id/btnAddWallet"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <Button
+        android:id="@+id/btnDeleteData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="delete data"
+        app:layout_constraintBottom_toTopOf="@+id/btnBackTest"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/btnAddBank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="add coins to bank"
+        app:layout_constraintBottom_toTopOf="@+id/btnAddFWallet"
+        tools:layout_editor_absoluteX="139dp" />
+
+    <Button
+        android:id="@+id/btnAddFWallet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="add coins to second wallet"
+        app:layout_constraintBottom_toTopOf="@+id/btnDeleteData"
+        tools:layout_editor_absoluteX="139dp" />
+
+    <Button
+        android:id="@+id/btnGetGold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="get 1000 golds"
+        app:layout_constraintBottom_toTopOf="@+id/btnGetChest"
+        tools:layout_editor_absoluteX="128dp" />
+
+    <Button
+        android:id="@+id/btnBackTest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="148dp" />
+
+    <EditText
+        android:id="@+id/editTextCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="enter developer code"
+        android:inputType="number"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="108dp" />
+
+    <Button
+        android:id="@+id/btnActivate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="activate"
+        app:layout_constraintTop_toBottomOf="@+id/editTextCode"
+        tools:layout_editor_absoluteX="0dp" />
+
+</android.support.constraint.ConstraintLayout>

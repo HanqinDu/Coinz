@@ -23,12 +23,12 @@ class TestActivity : AppCompatActivity() {
         btnGetGold.isEnabled = false
         btnGetChest.isEnabled = false
 
-        val c1 = Coin("001",10.987654,"Peny")
-        val c2 = Coin("002",6.678945,"SHIL")
-        val c3 = Coin("003",12.345678,"SHIL")
-        val c4 = Coin("004",7.77777,"SHIL")
-        val c5 = Coin("005",4.44233,"QUID")
-        val c6 = Coin("006",2.333333,"DOLR")
+        val c1 = Coin("001",10.987654,"PENY",type = curToInt("PENY"))
+        val c2 = Coin("002",6.678945,"SHIL",type = curToInt("SHIL"))
+        val c3 = Coin("003",12.345678,"SHIL",type = curToInt("SHIL"))
+        val c4 = Coin("004",7.77777,"SHIL",type = curToInt("SHIL"))
+        val c5 = Coin("005",4.44233,"QUID",type = curToInt("QUID"))
+        val c6 = Coin("006",2.333333,"DOLR",type = curToInt("DOLR"))
 
         btnActivate.setOnClickListener {
             if(editTextCode.text.toString() == "1219"){
@@ -38,6 +38,19 @@ class TestActivity : AppCompatActivity() {
                 btnAddFWallet.isEnabled = true
                 btnGetGold.isEnabled = true
                 btnGetChest.isEnabled = true
+
+                Coins.rate_DOLR = 11.111
+                Coins.rate_PENY = 22.222
+                Coins.rate_QUID = 33.333
+                Coins.rate_SHIL = 44.444
+
+                Chest.solution[0] = 1
+                Chest.solution[1] = 2
+                Chest.solution[2] = 3
+                Chest.solution[3] = 4
+
+                Chest.shovel = 3
+                Chest.chest_State = 0
             }
         }
 

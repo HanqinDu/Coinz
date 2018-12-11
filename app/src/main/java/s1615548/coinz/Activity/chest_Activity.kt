@@ -54,7 +54,7 @@ class chest_Activity : AppCompatActivity() {
                 // when answer is correct
                 if(a == 4){
                     Chest.chest_State = 2
-                    Golds.addGold(((Chest.attempt+2)*500).toDouble())
+                    Golds.addGold(((Chest.attempt+3)*500).toDouble())
                     showToast("Chest unlock! you have received ${(Chest.attempt+3)*500} golds")
                     Chest.result += "Chest unlocked, code is ${Chest.solution}\n"
                     Chest.result += "you receive ${(Chest.attempt+3)*500} golds"

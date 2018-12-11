@@ -176,8 +176,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
 
         // Button 2: sign out
         btnSignout.setOnClickListener{
-            FirebaseAuth.getInstance().signOut()
-            showToast("sign out")
+            if(FirebaseAuth.getInstance().currentUser == null){
+                showToast("you haven't signed in yet")
+            }else{
+                FirebaseAuth.getInstance().signOut()
+                showToast("sign out")
+            }
         }
 
         // Button 3: open coins management menu
@@ -376,7 +380,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, LocationEngineList
 
         }
         if(switcher == -1){
-            showToast("please check your internet connection")
+            showToast("please check your internet connection and restart the game")
         }
         if(switcher == 0){
             showToast("map is downloading")
