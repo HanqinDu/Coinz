@@ -93,7 +93,7 @@ class bank_Activity : AppCompatActivity() {
                 }
                 i++
             }
-            showToast("${gold_will_gain.toInt()} received")
+            showToast("${gold_will_gain.toInt()} golds received")
 
             // save data
             val settings = getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE)

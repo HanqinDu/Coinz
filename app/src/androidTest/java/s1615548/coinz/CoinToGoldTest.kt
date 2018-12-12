@@ -40,12 +40,12 @@ class CoinToGoldTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatButton = onView(
                 allOf(withId(R.id.btnTest), withText("for test"),
@@ -60,7 +60,7 @@ class CoinToGoldTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatEditText = onView(
                 allOf(withId(R.id.editTextCode),
@@ -92,7 +92,7 @@ class CoinToGoldTest {
                         isDisplayed()))
         appCompatButton2.perform(click())
 
-        pressBack()
+        Thread.sleep(700)
 
         val appCompatButton3 = onView(
                 allOf(withId(R.id.btnAddBank), withText("add coins to bank"),
@@ -103,6 +103,8 @@ class CoinToGoldTest {
                                 3),
                         isDisplayed()))
         appCompatButton3.perform(click())
+
+        Thread.sleep(700)
 
         val appCompatButton4 = onView(
                 allOf(withId(R.id.btnBackTest), withText("back"),
@@ -117,7 +119,7 @@ class CoinToGoldTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatButton5 = onView(
                 allOf(withId(R.id.btnWallet), withText("Menu"),
@@ -132,7 +134,7 @@ class CoinToGoldTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatButton6 = onView(
                 allOf(withId(R.id.btnToBank), withText("bank"),
@@ -147,7 +149,7 @@ class CoinToGoldTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val textView = onView(
                 allOf(withId(R.id.txt), withText("4.4423"),
@@ -254,7 +256,7 @@ class CoinToGoldTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatButton8 = onView(
                 allOf(withId(R.id.btnToBank), withText("bank"),
@@ -269,7 +271,7 @@ class CoinToGoldTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val textView6 = onView(
                 allOf(withId(R.id.golds_number), withText("you have 1286 golds"),

@@ -51,6 +51,20 @@ class TestActivity : AppCompatActivity() {
 
                 Chest.shovel = 3
                 Chest.chest_State = 0
+
+                Chest.result = ""
+                Chest.attempt = 8
+
+                Golds.value = 0.0
+
+                Coins.coin_InWallet.clear()
+                Coins.coin_InBank.clear()
+                Coins.coin_FromMail.clear()
+                Coins.coin_OnMap.clear()
+
+                Coins.downloadDate = ""
+                Coins.send_made = 0
+                Coins.transfer_made = 0
             }
         }
 

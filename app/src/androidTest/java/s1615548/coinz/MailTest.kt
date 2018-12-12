@@ -40,12 +40,22 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
+
+        val appCompatButtons = onView(
+                allOf(withId(R.id.btnSignout), withText("sign out"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                2),
+                        isDisplayed()))
+        appCompatButtons.perform(click())
 
         val appCompatButton = onView(
                 allOf(withId(R.id.btnWallet), withText("Menu"),
@@ -60,7 +70,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatButton2 = onView(
                 allOf(withId(R.id.btnMail), withText("mail"),
@@ -75,7 +85,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatEditText = onView(
                 allOf(withId(R.id.input_email),
@@ -90,17 +100,8 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
-        val textView = onView(
-                allOf(withId(R.id.textLogin), withText("Account"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                0),
-                        isDisplayed()))
-        textView.check(matches(withText("Account")))
 
         val appCompatEditText2 = onView(
                 allOf(withId(R.id.input_email),
@@ -125,7 +126,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatButton3 = onView(
                 allOf(withId(R.id.btnLogin), withText("sign in"),
@@ -140,7 +141,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatButton4 = onView(
                 allOf(withId(R.id.btnMail), withText("mail"),
@@ -155,7 +156,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatButton5 = onView(
                 allOf(withId(R.id.btnBackMail), withText("Back"),
@@ -170,7 +171,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatButton6 = onView(
                 allOf(withId(R.id.btnManageCoinBack), withText("back"),
@@ -185,7 +186,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatButton7 = onView(
                 allOf(withId(R.id.btnTest), withText("for test"),
@@ -200,7 +201,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatEditText4 = onView(
                 allOf(withId(R.id.editTextCode),
@@ -265,7 +266,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatButton11 = onView(
                 allOf(withId(R.id.btnWallet), withText("Menu"),
@@ -280,7 +281,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatButton12 = onView(
                 allOf(withId(R.id.btnMail), withText("mail"),
@@ -295,7 +296,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatButton13 = onView(
                 allOf(withId(R.id.btnSendMail), withText("send coins to others"),
@@ -310,7 +311,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val textInputEditText = onView(
                 allOf(withId(R.id.text_userID),
@@ -327,15 +328,7 @@ class MailTest {
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         Thread.sleep(50)
 
-        val linearLayout = onView(
-                allOf(withContentDescription("Paste"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(`is`("android.widget.RelativeLayout")),
-                                        0),
-                                0),
-                        isDisplayed()))
-        linearLayout.perform(click())
+
 
         val textInputEditText2 = onView(
                 allOf(withId(R.id.text_userID),
@@ -364,8 +357,6 @@ class MailTest {
                                 1)))
                 .atPosition(0)
         linearLayout2.perform(click())
-
-        pressBack()
 
         val linearLayout3 = onData(anything())
                 .inAdapterView(allOf(withId(R.id.GV_send),
@@ -396,7 +387,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatButton15 = onView(
                 allOf(withId(R.id.btnBackMail), withText("Back"),
@@ -411,7 +402,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatButton16 = onView(
                 allOf(withId(R.id.btnToWallet), withText("wallet"),
@@ -426,7 +417,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val textView2 = onView(
                 allOf(withId(R.id.txt), withText("4.4423"),
@@ -486,7 +477,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatButton19 = onView(
                 allOf(withId(R.id.btnSignout), withText("sign out"),
@@ -511,7 +502,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatButton21 = onView(
                 allOf(withId(R.id.btnMail), withText("mail"),
@@ -526,17 +517,8 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
-        val textView5 = onView(
-                allOf(withId(R.id.textLogin), withText("Account"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                0),
-                        isDisplayed()))
-        textView5.check(matches(withText("Account")))
 
         val appCompatEditText7 = onView(
                 allOf(withId(R.id.input_email),
@@ -561,7 +543,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatEditText9 = onView(
                 allOf(withId(R.id.input_password),
@@ -588,15 +570,6 @@ class MailTest {
                         isDisplayed()))
         appCompatButton22.perform(click())
 
-        val linearLayout5 = onView(
-                allOf(withContentDescription("Paste"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(`is`("android.widget.RelativeLayout")),
-                                        0),
-                                0),
-                        isDisplayed()))
-        linearLayout5.perform(click())
 
         val appCompatEditText10 = onView(
                 allOf(withId(R.id.input_password),
@@ -621,7 +594,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatButton24 = onView(
                 allOf(withId(R.id.btnMail), withText("mail"),
@@ -658,15 +631,6 @@ class MailTest {
                         isDisplayed()))
         textView7.check(matches(withText("Contains 3 coins")))
 
-        val textView8 = onView(
-                allOf(withId(R.id.textMail), withText("Mail"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                0),
-                        isDisplayed()))
-        textView8.check(matches(withText("Mail")))
 
         val appCompatButton25 = onView(
                 allOf(withId(R.id.btnCollect), withText("collect all"),
@@ -691,7 +655,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatButton27 = onView(
                 allOf(withId(R.id.btn_CoinsFF), withText("coins from friend"),
@@ -706,7 +670,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val textView9 = onView(
                 allOf(withId(R.id.txt), withText("12.345"),
@@ -738,15 +702,6 @@ class MailTest {
                         isDisplayed()))
         textView11.check(matches(withText("10.987")))
 
-        val textView12 = onView(
-                allOf(withId(R.id.textViewSecondWallet), withText("Second Wallet"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                0),
-                        isDisplayed()))
-        textView12.check(matches(withText("Second Wallet")))
 
         val linearLayout6 = onData(anything())
                 .inAdapterView(allOf(withId(R.id.GV_wallet_mail),
@@ -769,7 +724,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatButton29 = onView(
                 allOf(withId(R.id.btnToBank), withText("bank"),
@@ -784,7 +739,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val textView13 = onView(
                 allOf(withId(R.id.txt), withText("2.3333"),
@@ -809,7 +764,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val appCompatButton31 = onView(
                 allOf(withId(R.id.btn_CoinsFF), withText("coins from friend"),
@@ -824,7 +779,7 @@ class MailTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(7000)
+        Thread.sleep(2500)
 
         val textView14 = onView(
                 allOf(withId(R.id.txt), withText("12.345"),
@@ -846,15 +801,6 @@ class MailTest {
                         isDisplayed()))
         textView15.check(matches(withText("10.987")))
 
-        val textView16 = onView(
-                allOf(withId(R.id.instruction_mail_coin), withText("bank capacity: 1/300"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
-                        isDisplayed()))
-        textView16.check(matches(withText("bank capacity: 1/300")))
     }
 
     private fun childAtPosition(

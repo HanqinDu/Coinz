@@ -80,52 +80,61 @@ class send_Activity : AppCompatActivity() {
 
         // Button 2: send mail
         btnSend.setOnClickListener{
-            if(text_userID.text.toString().length != 28){
-                showToast("please enter a valid user ID")
-            }else{
-                // fire base reference
-                val settings = FirebaseFirestoreSettings.Builder().setTimestampsInSnapshotsEnabled(true).build()
-                firestore?.firestoreSettings = settings
-                mailRef = firestore?.collection(COLLECTION_KEY)?.document(text_userID.text.toString())?.collection("mail")
+            when {
+                // when the userID's length is not correct
+                text_userID.text.toString().length != 28 -> showToast("please enter a valid user ID")
 
-                // convert coins to one String
-                var sendlist = ""
-                var i = 0
-                var coins_sends = 0
-                while(i < Coins.coin_InWallet.size){
-                    if(adapter.selectedPositions[i]){
-                        sendlist += Coins.coin_InWallet[i].toString() + "/"
-                        coins_sends++
-                    }
-                    i++
-                }
+                // when the receiver's is the same as the players
+                text_userID.text.toString() == FirebaseAuth.getInstance().currentUser!!.uid -> showToast("you can't send mail to yourself")
 
+                // else, send a mail
+                else -> {
+                    // fire base reference
+                    val settings = FirebaseFirestoreSettings.Builder().setTimestampsInSnapshotsEnabled(true).build()
+                    firestore?.firestoreSettings = settings
+                    mailRef = firestore?.collection(COLLECTION_KEY)?.document(text_userID.text.toString())?.collection("mail")
 
-                val newMessage = mapOf(
-                        "Message" to text_notes.text.toString(),
-                        "Coins" to sendlist,
-                        "Number" to coins_sends
-                )
-
-                mailRef?.add(newMessage)
-                        ?.addOnSuccessListener {
-                            showToast("$coins_sends Coins sent")
-
-                            // Once the coin is removed from array list, the coins after that coin move forwards
-                            // therefore, we should track the difference and use it to eliminate change in position
-                            var i = 0
-                            var difference = 0
-                            while(i<adapter.selectedPositions.size){
-                                if(adapter.selectedPositions[i]){
-                                    Coins.send(i-difference)
-                                    difference++
-                                }
-                                i++
-                            }
-
-                            finish()
+                    // convert coins to one String
+                    var sendlist = ""
+                    var i = 0
+                    var coins_sends = 0
+                    while(i < Coins.coin_InWallet.size){
+                        if(adapter.selectedPositions[i]){
+                            sendlist += Coins.coin_InWallet[i].toString() + "/"
+                            coins_sends++
                         }
-                        ?.addOnFailureListener { e -> Log.e(TAG, e.message) }
+                        i++
+                    }
+
+
+                    val newMessage = mapOf(
+                            "Message" to text_notes.text.toString(),
+                            "Coins" to sendlist,
+                            "Number" to coins_sends
+                    )
+
+                    mailRef?.add(newMessage)
+                            ?.addOnSuccessListener {
+                                showToast("$coins_sends Coins sent")
+
+                                // remove coins which are send from wallet
+
+                                // Once the coin is removed from array list, the coins after that coin move forwards
+                                // therefore, we should track the difference and use it to eliminate change in position
+                                var i = 0
+                                var difference = 0
+                                while(i<adapter.selectedPositions.size){
+                                    if(adapter.selectedPositions[i]){
+                                        Coins.send(i-difference)
+                                        difference++
+                                    }
+                                    i++
+                                }
+
+                                finish()
+                            }
+                            ?.addOnFailureListener { e -> Log.e(TAG, e.message) }
+                }
             }
         }
 

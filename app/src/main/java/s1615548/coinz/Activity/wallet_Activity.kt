@@ -8,7 +8,6 @@ import kotlinx.android.synthetic.main.layout_wallet.view.*
 import s1615548.coinz.Adapter.coins_gridview_adaptor
 import s1615548.coinz.Model.Coins
 import s1615548.coinz.Model.DBHandler
-import s1615548.coinz.Model.Golds
 import s1615548.coinz.Model.wallet_Layout
 import s1615548.coinz.R
 import s1615548.coinz.changeLight
@@ -54,8 +53,8 @@ class wallet_Activity : AppCompatActivity(){
         GV_wallet.adapter = adapter
 
         // text
-        instruction.text = "bank capacity: ${Coins.coin_InBank.size}/${Coins.bank_capacity}"
-        instruction2.text = "daily capacity: ${Coins.transfer_made}/${Coins.daily_capacity}"
+        instructionWallet.text = "bank capacity: ${Coins.coin_InBank.size}/${Coins.bank_capacity}"
+        instruction2_wallet.text = "daily capacity: ${Coins.transfer_made}/${Coins.daily_capacity}"
 
         // Button: Grid view item click - turn dark when item selected
         GV_wallet.setOnItemClickListener { parent, view, position, id ->

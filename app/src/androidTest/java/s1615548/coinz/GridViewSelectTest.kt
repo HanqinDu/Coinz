@@ -22,7 +22,7 @@ import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class BasicGridViewTest {
+class GridViewSelectTest {
 
     @Rule
     @JvmField
@@ -35,16 +35,16 @@ class BasicGridViewTest {
                     "android.permission.ACCESS_FINE_LOCATION")
 
     @Test
-    fun basicGridViewTest() {
+    fun gridViewSelectTest() {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(3000)
+        Thread.sleep(2500)
 
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(3000)
+        Thread.sleep(2500)
 
         val appCompatButton = onView(
                 allOf(withId(R.id.btnTest), withText("for test"),
@@ -59,7 +59,7 @@ class BasicGridViewTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(3000)
+        Thread.sleep(2500)
 
         val appCompatEditText = onView(
                 allOf(withId(R.id.editTextCode),
@@ -101,21 +101,6 @@ class BasicGridViewTest {
                         isDisplayed()))
         appCompatButton2.perform(click())
 
-        Thread.sleep(3000)
-
-        val appCompatButtond = onView(
-                allOf(withId(R.id.btnDeleteData), withText("delete data"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
-                        isDisplayed()))
-        appCompatButtond.perform(click())
-
-        Thread.sleep(700)
-
-
         val appCompatButton3 = onView(
                 allOf(withId(R.id.btnAddWallet), withText("add coins to wallet"),
                         childAtPosition(
@@ -126,33 +111,7 @@ class BasicGridViewTest {
                         isDisplayed()))
         appCompatButton3.perform(click())
 
-        Thread.sleep(700)
-
         val appCompatButton4 = onView(
-                allOf(withId(R.id.btnAddBank), withText("add coins to bank"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                3),
-                        isDisplayed()))
-        appCompatButton4.perform(click())
-
-        Thread.sleep(700)
-
-        val appCompatButton5 = onView(
-                allOf(withId(R.id.btnAddFWallet), withText("add coins to second wallet"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                4),
-                        isDisplayed()))
-        appCompatButton5.perform(click())
-
-        Thread.sleep(700)
-
-        val appCompatButton6 = onView(
                 allOf(withId(R.id.btnBackTest), withText("back"),
                         childAtPosition(
                                 childAtPosition(
@@ -160,14 +119,14 @@ class BasicGridViewTest {
                                         0),
                                 6),
                         isDisplayed()))
-        appCompatButton6.perform(click())
+        appCompatButton4.perform(click())
 
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(3000)
+        Thread.sleep(2500)
 
-        val appCompatButton7 = onView(
+        val appCompatButton5 = onView(
                 allOf(withId(R.id.btnWallet), withText("Menu"),
                         childAtPosition(
                                 childAtPosition(
@@ -175,14 +134,14 @@ class BasicGridViewTest {
                                         0),
                                 3),
                         isDisplayed()))
-        appCompatButton7.perform(click())
+        appCompatButton5.perform(click())
 
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(3000)
+        Thread.sleep(2500)
 
-        val appCompatButton8 = onView(
+        val appCompatButton6 = onView(
                 allOf(withId(R.id.btnToWallet), withText("wallet"),
                         childAtPosition(
                                 childAtPosition(
@@ -190,22 +149,60 @@ class BasicGridViewTest {
                                         0),
                                 2),
                         isDisplayed()))
-        appCompatButton8.perform(click())
+        appCompatButton6.perform(click())
 
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(3000)
+        Thread.sleep(2500)
 
-        val imageView = onView(
-                allOf(withId(R.id.img),
+        val linearLayout = onData(anything())
+                .inAdapterView(allOf(withId(R.id.GV_wallet),
                         childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.GV_wallet),
-                                        5),
-                                0),
-                        isDisplayed()))
-        imageView.check(matches(isDisplayed()))
+                                withClassName(`is`("android.support.constraint.ConstraintLayout")),
+                                0)))
+                .atPosition(4)
+        linearLayout.perform(click())
+
+        val linearLayout2 = onData(anything())
+                .inAdapterView(allOf(withId(R.id.GV_wallet),
+                        childAtPosition(
+                                withClassName(`is`("android.support.constraint.ConstraintLayout")),
+                                0)))
+                .atPosition(1)
+        linearLayout2.perform(click())
+
+        val linearLayout3 = onData(anything())
+                .inAdapterView(allOf(withId(R.id.GV_wallet),
+                        childAtPosition(
+                                withClassName(`is`("android.support.constraint.ConstraintLayout")),
+                                0)))
+                .atPosition(5)
+        linearLayout3.perform(click())
+
+        val linearLayout4 = onData(anything())
+                .inAdapterView(allOf(withId(R.id.GV_wallet),
+                        childAtPosition(
+                                withClassName(`is`("android.support.constraint.ConstraintLayout")),
+                                0)))
+                .atPosition(4)
+        linearLayout4.perform(click())
+
+        val linearLayout5 = onData(anything())
+                .inAdapterView(allOf(withId(R.id.GV_wallet),
+                        childAtPosition(
+                                withClassName(`is`("android.support.constraint.ConstraintLayout")),
+                                0)))
+                .atPosition(2)
+        linearLayout5.perform(click())
+
+        val linearLayout6 = onData(anything())
+                .inAdapterView(allOf(withId(R.id.GV_wallet),
+                        childAtPosition(
+                                withClassName(`is`("android.support.constraint.ConstraintLayout")),
+                                0)))
+                .atPosition(2)
+        linearLayout6.perform(click())
 
         val textView = onView(
                 allOf(withId(R.id.txt), withText("4.4423"),
@@ -217,17 +214,7 @@ class BasicGridViewTest {
                         isDisplayed()))
         textView.check(matches(withText("4.4423")))
 
-        val textView3 = onView(
-                allOf(withId(R.id.instruction2_wallet), withText("daily capacity: 0/25"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                3),
-                        isDisplayed()))
-        textView3.check(matches(withText("daily capacity: 0/25")))
-
-        val textView4 = onView(
+        val textView2 = onView(
                 allOf(withId(R.id.txt), withText("2.3333"),
                         childAtPosition(
                                 childAtPosition(
@@ -235,39 +222,84 @@ class BasicGridViewTest {
                                         1),
                                 1),
                         isDisplayed()))
-        textView4.check(matches(withText("2.3333")))
+        textView2.check(matches(withText("2.3333")))
 
-        val textView5 = onView(
-                allOf(withId(R.id.txt), withText("12.345"),
+
+        val linearLayout7 = onData(anything())
+                .inAdapterView(allOf(withId(R.id.GV_wallet),
                         childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.GV_wallet),
-                                        2),
-                                1),
-                        isDisplayed()))
-        textView5.check(matches(withText("12.345")))
+                                withClassName(`is`("android.support.constraint.ConstraintLayout")),
+                                0)))
+                .atPosition(1)
+        linearLayout7.perform(click())
 
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(3000)
+        val linearLayout8 = onData(anything())
+                .inAdapterView(allOf(withId(R.id.GV_wallet),
+                        childAtPosition(
+                                withClassName(`is`("android.support.constraint.ConstraintLayout")),
+                                0)))
+                .atPosition(5)
+        linearLayout8.perform(click())
 
-        val appCompatButton9 = onView(
-                allOf(withId(R.id.btnBackWallet), withText("back"),
+        val appCompatButton7 = onView(
+                allOf(withId(R.id.btnSaveToBank), withText("save to bank"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                4),
+                                2),
                         isDisplayed()))
-        appCompatButton9.perform(click())
+        appCompatButton7.perform(click())
+
+
+        val linearLayout9 = onData(anything())
+                .inAdapterView(allOf(withId(R.id.GV_wallet),
+                        childAtPosition(
+                                withClassName(`is`("android.support.constraint.ConstraintLayout")),
+                                0)))
+                .atPosition(5)
+        linearLayout9.perform(click())
+
+        val linearLayout10 = onData(anything())
+                .inAdapterView(allOf(withId(R.id.GV_wallet),
+                        childAtPosition(
+                                withClassName(`is`("android.support.constraint.ConstraintLayout")),
+                                0)))
+                .atPosition(2)
+        linearLayout10.perform(click())
+
+        val linearLayout11 = onData(anything())
+                .inAdapterView(allOf(withId(R.id.GV_wallet),
+                        childAtPosition(
+                                withClassName(`is`("android.support.constraint.ConstraintLayout")),
+                                0)))
+                .atPosition(1)
+        linearLayout11.perform(click())
+
+        val linearLayout12 = onData(anything())
+                .inAdapterView(allOf(withId(R.id.GV_wallet),
+                        childAtPosition(
+                                withClassName(`is`("android.support.constraint.ConstraintLayout")),
+                                0)))
+                .atPosition(2)
+        linearLayout12.perform(click())
+
+        val appCompatButton8 = onView(
+                allOf(withId(R.id.btnSaveToBank), withText("save to bank"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                2),
+                        isDisplayed()))
+        appCompatButton8.perform(click())
 
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(3000)
+        Thread.sleep(2500)
 
-        val appCompatButton10 = onView(
+        val appCompatButton9 = onView(
                 allOf(withId(R.id.btnToBank), withText("bank"),
                         childAtPosition(
                                 childAtPosition(
@@ -275,24 +307,118 @@ class BasicGridViewTest {
                                         0),
                                 3),
                         isDisplayed()))
+        appCompatButton9.perform(click())
+
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        Thread.sleep(2500)
+
+        val textView5 = onView(
+                allOf(withId(R.id.txt), withText("4.4423"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.GV_bank),
+                                        1),
+                                1),
+                        isDisplayed()))
+        textView5.check(matches(withText("4.4423")))
+
+        val textView6 = onView(
+                allOf(withId(R.id.txt), withText("2.3333"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.GV_bank),
+                                        0),
+                                1),
+                        isDisplayed()))
+        textView6.check(matches(withText("2.3333")))
+
+        val linearLayout13 = onData(anything())
+                .inAdapterView(allOf(withId(R.id.GV_bank),
+                        childAtPosition(
+                                withClassName(`is`("android.support.constraint.ConstraintLayout")),
+                                0)))
+                .atPosition(1)
+        linearLayout13.perform(click())
+
+        val linearLayout14 = onData(anything())
+                .inAdapterView(allOf(withId(R.id.GV_bank),
+                        childAtPosition(
+                                withClassName(`is`("android.support.constraint.ConstraintLayout")),
+                                0)))
+                .atPosition(1)
+        linearLayout14.perform(click())
+
+        val linearLayout15 = onData(anything())
+                .inAdapterView(allOf(withId(R.id.GV_bank),
+                        childAtPosition(
+                                withClassName(`is`("android.support.constraint.ConstraintLayout")),
+                                0)))
+                .atPosition(0)
+        linearLayout15.perform(click())
+
+        val textView8 = onView(
+                allOf(withId(R.id.golds_willGain), withText("you will gain 25 golds"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                2),
+                        isDisplayed()))
+        textView8.check(matches(withText("you will gain 25 golds")))
+
+        val appCompatButton10 = onView(
+                allOf(withId(R.id.btnConverToGold), withText("convert to Gold"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                1),
+                        isDisplayed()))
         appCompatButton10.perform(click())
 
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(3000)
+        Thread.sleep(2500)
 
-        val textView6 = onView(
-                allOf(withId(R.id.golds_number), withText("you have 0 golds"),
+        val appCompatButton11 = onView(
+                allOf(withId(R.id.btnToBank), withText("bank"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
                                 3),
                         isDisplayed()))
-        textView6.check(matches(withText("you have 0 golds")))
+        appCompatButton11.perform(click())
 
-        val textView7 = onView(
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        Thread.sleep(2500)
+
+        val textView9 = onView(
+                allOf(withId(R.id.txt), withText("4.4423"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.GV_bank),
+                                        0),
+                                1),
+                        isDisplayed()))
+        textView9.check(matches(withText("4.4423")))
+
+        val textView10 = onView(
+                allOf(withId(R.id.golds_number), withText("you have 25 golds"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                3),
+                        isDisplayed()))
+        textView10.check(matches(withText("you have 25 golds")))
+
+        val textView11 = onView(
                 allOf(withId(R.id.golds_willGain), withText("you will gain 0 golds"),
                         childAtPosition(
                                 childAtPosition(
@@ -300,132 +426,7 @@ class BasicGridViewTest {
                                         0),
                                 2),
                         isDisplayed()))
-        textView7.check(matches(withText("you will gain 0 golds")))
-
-        val imageView2 = onView(
-                allOf(withId(R.id.img),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.GV_bank),
-                                        5),
-                                0),
-                        isDisplayed()))
-        imageView2.check(matches(isDisplayed()))
-
-        val textView8 = onView(
-                allOf(withId(R.id.txt), withText("4.4423"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.GV_bank),
-                                        5),
-                                1),
-                        isDisplayed()))
-        textView8.check(matches(withText("4.4423")))
-
-        val textView9 = onView(
-                allOf(withId(R.id.txt), withText("2.3333"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.GV_bank),
-                                        1),
-                                1),
-                        isDisplayed()))
-        textView9.check(matches(withText("2.3333")))
-
-        val textView10 = onView(
-                allOf(withId(R.id.txt), withText("2.3333"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.GV_bank),
-                                        1),
-                                1),
-                        isDisplayed()))
-        textView10.check(matches(withText("2.3333")))
-
-        val linearLayout = onData(anything())
-                .inAdapterView(allOf(withId(R.id.GV_bank),
-                        childAtPosition(
-                                withClassName(`is`("android.support.constraint.ConstraintLayout")),
-                                0)))
-                .atPosition(0)
-        linearLayout.perform(click())
-
-        val linearLayout2 = onData(anything())
-                .inAdapterView(allOf(withId(R.id.GV_bank),
-                        childAtPosition(
-                                withClassName(`is`("android.support.constraint.ConstraintLayout")),
-                                0)))
-                .atPosition(2)
-        linearLayout2.perform(click())
-
-        val linearLayout3 = onData(anything())
-                .inAdapterView(allOf(withId(R.id.GV_bank),
-                        childAtPosition(
-                                withClassName(`is`("android.support.constraint.ConstraintLayout")),
-                                0)))
-                .atPosition(3)
-        linearLayout3.perform(click())
-
-        val appCompatButton11 = onView(
-                allOf(withId(R.id.btnBackBank), withText("back"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                4),
-                        isDisplayed()))
-        appCompatButton11.perform(click())
-
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(3000)
-
-        val appCompatButton12 = onView(
-                allOf(withId(R.id.btn_CoinsFF), withText("coins from friend"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                9),
-                        isDisplayed()))
-        appCompatButton12.perform(click())
-
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        Thread.sleep(3000)
-
-        val imageView3 = onView(
-                allOf(withId(R.id.img),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.GV_wallet_mail),
-                                        5),
-                                0),
-                        isDisplayed()))
-        imageView3.check(matches(isDisplayed()))
-
-        val textView11 = onView(
-                allOf(withId(R.id.txt), withText("4.4423"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.GV_wallet_mail),
-                                        5),
-                                1),
-                        isDisplayed()))
-        textView11.check(matches(withText("4.4423")))
-
-        val textView12 = onView(
-                allOf(withId(R.id.txt), withText("2.3333"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.GV_wallet_mail),
-                                        1),
-                                1),
-                        isDisplayed()))
-        textView12.check(matches(withText("2.3333")))
-
+        textView11.check(matches(withText("you will gain 0 golds")))
     }
 
     private fun childAtPosition(

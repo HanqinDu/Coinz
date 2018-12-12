@@ -18,18 +18,18 @@
         android:columnWidth="70dp"
         android:numColumns="auto_fit"
         app:layout_constraintBottom_toTopOf="@+id/btnSaveToBank"
-        app:layout_constraintTop_toBottomOf="@+id/instruction"
+        app:layout_constraintTop_toBottomOf="@+id/instructionWallet"
         tools:layout_editor_absoluteX="0dp" />
 
     <TextView
-        android:id="@+id/instruction"
+        android:id="@+id/instructionWallet"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="test"
-        app:layout_constraintEnd_toStartOf="@+id/instruction2"
+        app:layout_constraintEnd_toStartOf="@+id/instruction2_wallet"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textWallet" />
@@ -47,7 +47,7 @@
         app:layout_constraintStart_toEndOf="@+id/btnBackWallet" />
 
     <TextView
-        android:id="@+id/instruction2"
+        android:id="@+id/instruction2_wallet"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
